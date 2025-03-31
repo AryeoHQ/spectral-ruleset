@@ -1,5 +1,5 @@
 rules:
-  naming-path-lower-kebab:
+  naming-path-lower-kebab-case:
     description: |-
       Paths must be `lower-kebab-case`.
 
