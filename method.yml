@@ -1,0 +1,72 @@
+rules:
+  method-allowed:
+    description: |-
+      Methods can only be `GET`, `POST`, `PUT`, `PATCH`, or `DELETE`.
+
+      Incorrect:
+      ```json
+      {
+        "trace": {}
+      }
+      ```
+
+      Correct:
+      ```json
+      {
+        "get": {}
+      }
+      ```
+    severity: 'off'
+    given: $.*~
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - get
+          - post
+          - put
+          - patch
+          - delete
+  method-path-action-allowed:
+    description: >-
+      Action paths can only have `POST` methods.
+
+
+      As an example, assume you have a path represented by
+      `/example/companies/actions` which
+
+      is described by the spec at `.paths/example-companies-actions.json`.
+
+
+      Incorrect:
+
+      .paths/example-companies-actions.json
+
+      ```json
+
+      {
+        "get": {}
+      }
+
+      ```
+
+
+      Correct:
+
+      .paths/example-companies-actions.json
+
+      ```json
+
+      {
+        "post": {}
+      }
+
+      ```
+    severity: 'off'
+    given:
+      - $.*~
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - post
