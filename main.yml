@@ -1,0 +1,4 @@
+extends:
+  - ./method.yml
+  - ./naming.yml
+  - ./response.yml
