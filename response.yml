@@ -1,14 +1,16 @@
 rules:
-  response-get-must-have-200:
-    description: |-
-      GET requests must define a `200` response.
+  response-allowed-http-code:
+    description: >-
+      Response code must be in set
+      (200,201,202,204,400,401,403,404,405,406,409,415,422,429,500,503).
 
       Incorrect:
+
       ```json
       {
         "get": {
           "responses": {
-            "404": {}
+            "499": {}
           }
         }
       }
@@ -19,175 +21,34 @@ rules:
       {
         "get": {
           "responses": {
-            "200": {},
-            "404": {}
+            "500": {}
           }
         }
       }
       ```
     severity: 'off'
     given:
-      - '$.[?( @property == ''get'' )].responses'
+      - $..responses.*~
     then:
-      - field: '200'
-        function: truthy
-  response-get-invalid-code:
-    description: |-
-      GET requests should not define `201`, `202`, `204`, or `409` responses.
-
-      Incorrect:
-      ```json
-      {
-        "get": {
-          "responses": {
-            "201": {}
-          }
-        }
-      }
-      ```
-
-      Correct:
-      ```json
-      {
-        "get": {
-          "responses": {
-            "200": {}
-          }
-        }
-      }
-      ```
-    severity: 'off'
-    given: '$.[?( @property == ''get'' )].responses.*~'
-    then:
-      function: pattern
+      function: enumeration
       functionOptions:
-        notMatch: (201|202|204|409)
-  response-post-must-have-201:
-    description: |-
-      POST requests must define a `201` response.
-
-      Incorrect:
-      ```json
-      {
-        "get": {
-          "responses": {
-            "422": {}
-          }
-        }
-      }
-      ```
-
-      Correct:
-      ```json
-      {
-        "get": {
-          "responses": {
-            "201": {},
-            "422": {}
-          }
-        }
-      }
-      ```
-    severity: 'off'
-    given:
-      - '$.[?( @property == ''post'' )].responses'
-    then:
-      - field: '201'
-        function: truthy
-  response-post-invalid-code:
-    description: |-
-      POST requests should not define `204` responses.
-
-      Incorrect:
-      ```json
-      {
-        "post": {
-          "responses": {
-            "204": {}
-          }
-        }
-      }
-      ```
-
-      Correct:
-      ```json
-      {
-        "post": {
-          "responses": {
-            "201": {}
-          }
-        }
-      }
-      ```
-    severity: 'off'
-    given: '$.[?( @property == ''post'' )].responses.*~'
-    then:
-      function: pattern
-      functionOptions:
-        notMatch: '204'
-  response-put-invalid-code:
-    description: |-
-      PUT requests should not define `201` responses.
-
-      Incorrect:
-      ```json
-      {
-        "put": {
-          "responses": {
-            "201": {}
-          }
-        }
-      }
-      ```
-
-      Correct:
-      ```json
-      {
-        "put": {
-          "responses": {
-            "204": {}
-          }
-        }
-      }
-      ```
-    severity: 'off'
-    given: '$.[?( @property == ''put'' )].responses.*~'
-    then:
-      function: pattern
-      functionOptions:
-        notMatch: '201'
-  response-patch-invalid-code:
-    description: |-
-      PATCH requests should not define `201` or `202` responses.
-
-      Incorrect:
-      ```json
-      {
-        "patch": {
-          "responses": {
-            "201": {}
-          }
-        }
-      }
-      ```
-
-      Correct:
-      ```json
-      {
-        "patch": {
-          "responses": {
-            "204": {}
-          }
-        }
-      }
-      ```
-    severity: 'off'
-    given:
-      - '$.[?( @property == ''patch'' )].responses.*~'
-    then:
-      function: pattern
-      functionOptions:
-        notMatch: (201|202)
+        values:
+          - '200'
+          - '201'
+          - '202'
+          - '204'
+          - '400'
+          - '401'
+          - '403'
+          - '404'
+          - '405'
+          - '406'
+          - '409'
+          - '415'
+          - '422'
+          - '429'
+          - '500'
+          - '503'
   response-delete-invalid-code:
     description: |-
       DELETE requests should not define `201` or `202` responses.
@@ -220,60 +81,192 @@ rules:
       function: pattern
       functionOptions:
         notMatch: (201|202)
-  response-allowed-http-code:
-    description: >-
-      Response code must be in set
-      (200,201,202,204,400,401,403,404,405,406,409,415,422,429,500,503).
-
+  response-get-invalid-code:
+    description: |-
+      GET requests should not define `201`, `202`, `204`, or `409` responses.
 
       Incorrect:
-
       ```json
-
       {
         "get": {
           "responses": {
-            "499": {}
+            "201": {}
           }
         }
       }
-
       ```
 
-
       Correct:
-
       ```json
-
       {
         "get": {
           "responses": {
-            "500": {}
+            "200": {}
           }
         }
       }
+      ```
+    severity: 'off'
+    given: '$.[?( @property == ''get'' )].responses.*~'
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: (201|202|204|409)
+  response-get-must-have-200:
+    description: |-
+      GET requests must define a `200` response.
 
+      Incorrect:
+      ```json
+      {
+        "get": {
+          "responses": {
+            "404": {}
+          }
+        }
+      }
+      ```
+
+      Correct:
+      ```json
+      {
+        "get": {
+          "responses": {
+            "200": {},
+            "404": {}
+          }
+        }
+      }
       ```
     severity: 'off'
     given:
-      - $..responses.*~
+      - '$.[?( @property == ''get'' )].responses'
     then:
-      function: enumeration
+      - field: '200'
+        function: truthy
+  response-patch-invalid-code:
+    description: |-
+      PATCH requests should not define `201` or `202` responses.
+
+      Incorrect:
+      ```json
+      {
+        "patch": {
+          "responses": {
+            "201": {}
+          }
+        }
+      }
+      ```
+
+      Correct:
+      ```json
+      {
+        "patch": {
+          "responses": {
+            "204": {}
+          }
+        }
+      }
+      ```
+    severity: 'off'
+    given:
+      - '$.[?( @property == ''patch'' )].responses.*~'
+    then:
+      function: pattern
       functionOptions:
-        values:
-          - '200'
-          - '201'
-          - '202'
-          - '204'
-          - '400'
-          - '401'
-          - '403'
-          - '404'
-          - '405'
-          - '406'
-          - '409'
-          - '415'
-          - '422'
-          - '429'
-          - '500'
-          - '503'
+        notMatch: (201|202)
+  response-post-invalid-code:
+    description: |-
+      POST requests should not define `204` responses.
+
+      Incorrect:
+      ```json
+      {
+        "post": {
+          "responses": {
+            "204": {}
+          }
+        }
+      }
+      ```
+
+      Correct:
+      ```json
+      {
+        "post": {
+          "responses": {
+            "201": {}
+          }
+        }
+      }
+      ```
+    severity: 'off'
+    given: '$.[?( @property == ''post'' )].responses.*~'
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '204'
+  response-post-must-have-201:
+    description: |-
+      POST requests must define a `201` response.
+
+      Incorrect:
+      ```json
+      {
+        "get": {
+          "responses": {
+            "422": {}
+          }
+        }
+      }
+      ```
+
+      Correct:
+      ```json
+      {
+        "get": {
+          "responses": {
+            "201": {},
+            "422": {}
+          }
+        }
+      }
+      ```
+    severity: 'off'
+    given:
+      - '$.[?( @property == ''post'' )].responses'
+    then:
+      - field: '201'
+        function: truthy
+  response-put-invalid-code:
+    description: |-
+      PUT requests should not define `201` responses.
+
+      Incorrect:
+      ```json
+      {
+        "put": {
+          "responses": {
+            "201": {}
+          }
+        }
+      }
+      ```
+
+      Correct:
+      ```json
+      {
+        "put": {
+          "responses": {
+            "204": {}
+          }
+        }
+      }
+      ```
+    severity: 'off'
+    given: '$.[?( @property == ''put'' )].responses.*~'
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '201'
