@@ -1,4 +1,7 @@
 extends:
-  - ./method.yml
-  - ./naming.yml
-  - ./response.yml
+  - ./rules/data.yml
+  - ./rules/naming.yml
+  - ./rules/path.yml
+  - ./rules/request.yml
+  - ./rules/response.yml
+  - ./rules/schema.yml

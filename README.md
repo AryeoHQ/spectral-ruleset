@@ -8,4 +8,5 @@ Serve this directory locally so that you can test the index page. Here's an exam
 
 ```php
 php -S localhost:8000
+open http://localhost:8000
 ```

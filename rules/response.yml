@@ -1,0 +1,438 @@
+---
+description: "Rules related to responses (e.g. headers, responses)."
+---
+rules:
+  response-action-not-post:
+    description: Action paths can only specify `POST` methods.
+    incorrect: |-
+      {
+        "/companies/action": {
+          "get": { ... }
+        }
+      }
+    incorrect-prism-highlight: "3"
+    correct: |-
+      {
+        "/companies/action": {
+          "post": { ... }
+        }
+      }
+    correct-prism-highlight: "3"
+    severity: off
+    given:
+      - '$.*~'
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - 'post'
+  response-code-not-restful:
+    description: Response code must be in set (200,201,202,204,400,401,403,404,405,406,409,415,422,429,500,503).
+    incorrect: |-
+      {
+        "get": {
+          "responses": {
+            "226": { ... }
+          }
+        }
+      }
+    incorrect-prism-highlight: "4"
+    correct: |-
+      {
+        "get": {
+          "responses": {
+            "200": { ... }
+          }
+        }
+      }
+    correct-prism-highlight: "4"    
+    severity: off
+    given: 
+      - "$..paths.*[?( @property != 'parameters' )].responses.*~"
+      - '$..responses.*~'
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - '200'
+          - '201'
+          - '202'
+          - '204'
+          - '400'
+          - '401'
+          - '403'
+          - '404'
+          - '405'
+          - '406'
+          - '409'
+          - '415'
+          - '422'
+          - '429'
+          - '500'
+          - '503'
+  response-content-not-json:
+    description: All content must be specified as `application/json`.
+    incorrect: |-
+      {
+        "/companies": {
+          "get": {
+            "responses": {
+              "200": {
+                "content": {
+                  "application/xml": { ... }
+                }
+              }
+            }
+          }
+        }
+      }
+    incorrect-prism-highlight: "7"
+    correct: |-
+      {
+        "/companies": {
+          "get": {
+            "responses": {
+              "200": {
+                "content": {
+                  "application/json": { ... }
+                }
+              }
+            }
+          }
+        }
+      }
+    correct-prism-highlight: "7"
+    severity: off
+    given: '$..content'
+    then:
+      - field: application/json
+        function: truthy
+  response-delete-code-not-restful:
+    description: DELETE requests should not define `201` or `202` responses.
+    incorrect: |-
+      {
+        "delete": {
+          "responses": {
+            "201": { ... },
+            "202": { ... }
+        }
+      }
+    incorrect-prism-highlight: "4-5"
+    correct: |-
+      {
+        "delete": {
+          "responses": { ... }
+        }
+      }
+    correct-prism-highlight: ""
+    severity: off
+    given:
+      - "$.[?( @property == 'delete' )].responses.*~"      
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '(201|202)'  
+  response-get-code-not-restful:
+    description: GET requests should not define `201`, `202`, `204`, or `409` responses.
+    incorrect: |-       
+      {
+        "get": {
+          "responses": {
+            "201": { ... },
+            "202": { ... },
+            "204": { ... },
+            "409": { ... }
+          }
+        }
+      }
+    incorrect-prism-highlight: "4-7"
+    correct: |-
+      {
+        "get": {
+          "responses": { ... }
+        }
+      }
+    correct-prism-highlight: ""
+    severity: off
+    given: 
+      - "$..paths.*[?( @property == 'get' )].responses.*~"
+      - "$.[?( @property == 'get' )].responses.*~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '(201|202|204|409)'
+  response-get-missing-200:
+    description: GET requests must define a `200` response.
+    incorrect: |-
+      {
+        "get": {
+          "responses": {
+            "404": { ... }
+          }
+        }
+      }
+    incorrect-prism-highlight: ""
+    correct: |-
+      {
+        "get": {
+          "responses": {
+            "200": { ... },
+            "404": { ... }
+          }
+        }
+      }
+    correct-prism-highlight: "4"
+    severity: off
+    given:
+      - "$.[?( @property == 'get' )].responses"
+      - "$..paths.*[?( @property == 'get' )].responses"
+    then:
+      - field: '200'
+        function: truthy
+  response-get-missing-restful-code:
+    description: GET requests must define a `404`, `422`, and `500` response.
+    incorrect: |-
+      {
+        "get": {
+          "responses": {
+            "200": { ... }
+          }
+        }
+      }
+    incorrect-prism-highlight: ""
+    correct: |-
+      {
+        "get": {
+          "responses": {
+            "200": { ... },
+            "404": { ... },
+            "422": { ... },
+            "500": { ... }
+          }
+        }
+      }
+    correct-prism-highlight: "5-7"
+    severity: off
+    given:
+      - "$..paths.*[?( @property == 'get' )].responses"
+    then:
+      - field: '404'
+        function: truthy
+      - field: '422'
+        function: truthy
+      - field: '500'
+        function: truthy
+  response-method-missing-x-external:
+    description: Response methods should define `x-external` as either true or false.
+    incorrect: |-
+      {
+        "get": {
+          "responses": { ... }
+        }
+      }
+    incorrect-prism-highlight: ""
+    correct: |-
+      {
+        "get": {
+          "responses": { ... },
+          "x-external": false
+        }
+      }
+    correct-prism-highlight: "4"
+    severity: off
+    given:
+      - '$.*'
+    then:
+      - field: x-external
+        function: defined
+      - field: x-external
+        function: enumeration
+        functionOptions:
+          values:
+            - true
+            - false
+  response-method-missing-x-internal:
+    description: Response methods should define `x-internal` as either true or false.
+    incorrect: |-
+      {
+        "get": {
+          "responses": { ... }
+        }
+      }
+    incorrect-prism-highlight: ""
+    correct: |-
+      {
+        "get": {
+          "responses": { ... },
+          "x-internal": true
+        }
+      }
+    correct-prism-highlight: "4"
+    severity: off
+    given:
+      - '$.*'
+    then:
+      - field: x-internal
+        function: defined
+      - field: x-internal
+        function: enumeration
+        functionOptions:
+          values:
+            - true
+            - false
+  response-missing-restful-code:
+    description: Requests must define a `422` and `500` response.
+    incorrect: |-
+      {
+        "post": {
+          "responses": {
+            "200": { ... }
+          }
+        }
+      }
+    incorrect-prism-highlight: ""
+    correct: |-
+      {
+        "post": {
+          "responses": {
+            "201": { ... },
+            "422": { ... },
+            "500": { ... }
+          }
+        }
+      }
+    correct-prism-highlight: "5-6"    
+    severity: off
+    given:
+      - "$..paths.*[?( @property == 'post' )].responses"
+      - "$..paths.*[?( @property == 'put' )].responses"
+      - "$..paths.*[?( @property == 'patch' )].responses"
+      - "$..paths.*[?( @property == 'delete' )].responses"
+    then:
+      - field: '422'
+        function: truthy
+      - field: '500'
+        function: truthy
+  response-not-restful:
+    description: Response methods can only be `GET`, `POST`, `PUT`, `PATCH`, or `DELETE`.
+    incorrect: |-
+      {
+        "trace": { ... }
+      }
+    incorrect-prism-highlight: "2"
+    correct: |-
+      {
+        "get": { ... }
+      }
+    correct-prism-highlight: "2"
+    severity: off
+    given: "$..paths.*[?( @property != 'parameters' )]~"
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - get
+          - post
+          - put
+          - patch
+          - delete
+  response-patch-code-not-restful:
+    description: PATCH requests should not define `201` or `202` responses.
+    incorrect: |-
+      {
+        "patch": {
+          "responses": {
+            "201": { ... },
+            "202": { ... }
+        }
+      }
+    incorrect-prism-highlight: "4-5"
+    correct: |-
+      {
+        "patch": {
+          "responses": { ... }
+        }
+      }
+    correct-prism-highlight: ""
+    severity: off
+    given:
+      - "$.[?( @property == 'patch' )].responses.*~"      
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '(201|202)'
+  response-post-code-not-restful:
+    description: POST requests should not define `204` responses.
+    incorrect: |-
+      {
+        "post": {
+          "responses": {
+            "204": { ... }
+          }
+        }
+      }
+    incorrect-prism-highlight: "4"
+    correct: |-
+      {
+        "post": {
+          "responses": { ... }
+        }
+      }
+    correct-prism-highlight: ""
+    severity: off
+    given: "$.[?( @property == 'post' )].responses.*~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '204'
+  response-post-missing-201:
+    description: POST requests must define a `201` response.
+    incorrect: |-
+      {
+        "post": {
+          "responses": {
+            "422": { ... }
+          }
+        }
+      }
+    incorrect-prism-highlight: ""
+    correct: |-
+      {
+        "post": {
+          "responses": {
+            "201": { ... },
+            "422": { ... }
+          }
+        }
+      }
+    correct-prism-highlight: "4"
+    severity: off
+    given:
+      - "$.[?( @property == 'post' )].responses"
+    then:
+      - field: '201'
+        function: truthy
+  response-put-code-not-restful:
+    description: PUT requests should not define `201` responses.
+    incorrect: |-
+      {
+        "put": {
+          "responses": {
+            "201": { ... }
+          }
+        }
+      }
+    incorrect-prism-highlight: "4"
+    correct: |-
+      {
+        "put": {
+          "responses": { ... }
+        }
+      }
+    correct-prism-highlight: ""
+    severity: off
+    given: "$.[?( @property == 'put' )].responses.*~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '201'

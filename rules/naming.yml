@@ -1,0 +1,278 @@
+---
+description: "Rules related to naming conventions (e.g. lower_snake_case)."
+---
+rules:
+  naming-header-name-not-hyphenated-pascal-case:
+    description: Header names must use `Hyphenated-Pascal-Case`.
+    incorrect: |-      
+      {
+        "get": {
+          "responses": {
+            "200": {
+              "headers": {
+                "X_STPlus_Request_Id": { ... }
+              }
+            }
+          }
+        }
+      }
+    incorrect-prism-highlight: "6"
+    correct: |-      
+      {
+        "get": {
+          "responses": {
+            "200": {
+              "headers": {
+                "X-STPlus-Request-Id": { ... }
+              }
+            }
+          }
+        }
+      }
+    correct-prism-highlight: "6"
+    given:
+      - '$..parameters[?(@.in == ''header'')].name'
+      - $..headers.*~
+    severity: off
+    then:
+      function: pattern
+      functionOptions:
+        match: '^([A-Z]+[a-z0-9]*-)+([A-Z]+[a-z0-9]*)$'
+  naming-path-name-not-lower-kebab-case:
+    description: Path names must use `lower-kebab-case`.
+    incorrect: |-      
+      {
+        "paths": {
+          "/Company-Details": { ... }
+        }
+      }
+    incorrect-prism-highlight: "3"
+    correct: |- 
+      {
+        "paths": {
+          "/company-details": { ... }
+        }
+      }
+    correct-prism-highlight: "3"
+    severity: off
+    given:
+      - $.paths
+    then:
+      function: pattern
+      functionOptions:
+        match: '^/([a-z0-9.]+(-[a-z0-9.]+)*)?(/[a-z0-9.]+(-[a-z0-9.]+)*|/{.+})*$'
+      field: '@key'
+  naming-path-name-not-lower-kebab-case-with-param-snake-case:
+    description: Path names must use `lower-kebab-case` with `lower_snake_case` parameters, if provided.
+    incorrect: |-      
+      {
+        "paths": {      
+          "/usCompanies/{COMPANY-ID}": { ... }
+        }
+      }
+    incorrect-prism-highlight: "3"
+    correct: |-      
+      {
+        "paths": {      
+          "/us-companies/{company_id}": { ... }
+        }
+      }
+    correct-prism-highlight: "3"    
+    severity: off
+    given:
+      - $.paths[*]~
+    then:
+      - function: pattern
+        functionOptions:
+          match: '[a-z0-9]+(?:_[a-z0-9]+)*'  
+  naming-path-param-name-not-camel-case:
+    description: Path parameter names must use `camelCase`. Digits are not allowed.
+    incorrect: |-
+      {
+        "paths": {
+          "/companies/{COMPANY-ID}": { ... }
+        }
+      }      
+    incorrect-prism-highlight: "3"
+    correct: |-
+      {
+        "paths": {
+          "/companies/{companyId}": { ... }
+        }
+      }
+    correct-prism-highlight: "3"
+    severity: off
+    given:
+      - '$..parameters[?(@.in == ''path'')]'
+    then:
+      function: casing
+      functionOptions:
+        type: camel
+        disallowDigits: true
+      field: name
+  naming-path-param-name-not-lower-snake-case:
+    description: Path parameter names must use `lower_snake_case`. Digits are not allowed.
+
+    incorrect: |-
+      {
+        "paths": {
+          "/companies/{COMPANY-ID}": { ... }
+        }
+      }      
+    incorrect-prism-highlight: "3"
+    correct: |-
+      {
+        "paths": {
+          "/companies/{company_id}": { ... }
+        }
+      }
+    correct-prism-highlight: "3"
+    severity: off
+    given:
+      - '$..parameters[?(@.in == ''path'')]'
+    then:
+      function: casing
+      functionOptions:
+        type: snake
+        disallowDigits: true
+      field: name
+  naming-prop-name-not-camel-case:
+    description: Property names must use `camelCase`. Digits are not allowed.
+    incorrect: |-
+      {
+        "properties": {
+          "RESOURCE-ID": { ... }
+        }
+      }
+    incorrect-prism-highlight: "3"
+    correct: |-
+      {
+        "properties": {
+          "resourceId": { ... }
+        }
+      }
+    correct-prism-highlight: "3"
+    severity: off
+    given:
+      - $..properties.*~
+      - '$..schema.properties[*]~'
+    then:
+      function: casing
+      functionOptions:
+        type: camel
+        disallowDigits: true
+      field: name
+  naming-prop-name-not-lower-snake-case:
+    description: Property names must use `lower_snake_case`. Digits are not allowed.
+    incorrect: |-
+      {
+        "properties": {
+          "RESOURCE-ID": { ... }
+        }
+      }
+    incorrect-prism-highlight: "3"
+    correct: |-
+      {
+        "properties": {
+          "resource_id": { ... }
+        }
+      }
+    correct-prism-highlight: "3"
+    severity: off
+    given:
+      - '$..properties.*~'
+      - '$..schema.properties[*]~'      
+    then:
+      function: casing
+      functionOptions:
+        type: snake
+        disallowDigits: true
+      field: name  
+  naming-query-param-name-not-camel-case:
+    description: Query parameter names must use `camelCase`. Digits are not allowed.
+    incorrect: |-
+      {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "RESOURCE-ID"
+          }
+        ]
+      }
+    incorrect-prism-highlight: "5"
+    correct: |-
+      {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "resourceId"
+          }
+        ]
+      }
+    correct-prism-highlight: "5"
+    severity: off
+    given:
+      - '$..parameters[?(@.in == ''query'')]'
+    then:
+      function: casing
+      functionOptions:
+        type: camel
+        disallowDigits: true
+      field: name
+  naming-query-param-name-not-lower-snake-case:  
+    description: Query parameter names must use `lower_snake_case`. Digits are not allowed.
+    incorrect: |-
+      {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "RESOURCE-ID"
+          }
+        ]
+      }
+    incorrect-prism-highlight: "5"
+    correct: |-
+      {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "resource_id"
+          }
+        ]
+      }
+    correct-prism-highlight: "5"
+    severity: off
+    given:
+      - '$..parameters[?(@.in == ''query'')]'
+    then:
+      function: casing
+      functionOptions:
+        type: snake
+        disallowDigits: true
+      field: name
+  naming-string-enum-value-not-upper-snake-case:
+    description: Enumeration values must use `UPPER_SNAKE_CASE`.
+    incorrect: |-
+      {
+        "property_type": {
+          "type": "string",
+          "example": "residential",
+          "enum": ["residential", "commercial", "land", "rental", "multi-family", "business-opportunity", "farm"]
+        }
+      }
+    incorrect-prism-highlight: "4-5"
+    correct: |-
+      {
+        "property_type": {
+          "type": "string",
+          "example": "RESIDENTIAL",
+          "enum": ["RESIDENTIAL", "COMMERCIAL", "LAND", "RENTAL", "MULTI_FAMILY", "BUSINESS_OPPORTUNITY", "FARM"]
+        }
+      }
+    correct-prism-highlight: "4-5"    
+    severity: off
+    given: $.properties.*.enum.*
+    then:
+      function: casing
+      functionOptions:
+        type: macro      

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spectral Rules</title>
+    <title>Distributed Spectral Ruleset</title>
 
     <!-- Prism.js Styles -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
@@ -49,9 +49,23 @@
             overflow-y: auto;
         }
 
+        /* Rules */
         .rule-title {
             font-weight: bold;
             font-size: 1.5em;
+        }
+
+        .rule-title a {
+            color: inherit;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .rule-title a:hover::after {
+            content: " 🔗";
+            font-size: 0.7em;
+            position: relative;
+            top: -2px;
         }
 
         .rule-description {
@@ -62,6 +76,15 @@
         .token.operator {
             background: transparent;
         }
+
+        /* Line Highlighting */
+        .example.correct .line-highlight {
+            background: rgba(46, 160, 67, 0.15) !important;
+        }
+
+        .example.incorrect .line-highlight {
+            background: rgba(248, 81, 73, 0.15) !important;
+        }
     </style>
 </head>
 
@@ -69,15 +92,17 @@
     <div class="sidebar" id="sidebar">
         <select id="fileSelect">
             <option value="">Select a file</option>
-            <option value="method.yml">method.yml</option>
-            <option value="naming.yml">naming.yml</option>
-            <option value="response.yml">response.yml</option>
+            <option value="./rules/data.yml">data.yml</option>
+            <option value="./rules/naming.yml">naming.yml</option>
+            <option value="./rules/path.yml">path.yml</option>
+            <option value="./rules/request.yml">request.yml</option>
+            <option value="./rules/response.yml">response.yml</option>
+            <option value="./rules/schema.yml">schema.yml</option>
         </select>
     </div>
     <div class="content" id="content">
         <h1>Distributed Spectral Ruleset</h1>
-        <p>This page displays the rules defined in this distributed Spectral ruleset. Select a file from the sidebar to
-            view its rules.</p>
+        <p>Select a rules file from the sidebar to view its rules.</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
@@ -92,54 +117,64 @@
                     const cacheBuster = new Date().getTime();
                     const response = await fetch(`${fileName}?_=${cacheBuster}`);
                     const yamlText = await response.text();
-                    const yamlData = jsyaml.load(yamlText);
 
-                    const frontMatter = extractFrontMatter(yamlText);
+                    // Split the content into front matter and rules
+                    const parts = yamlText.split('---\n');
+
+                    // If we have front matter, it will be in parts[1], and rules in parts[2]
+                    // If no front matter, rules will be in parts[0]
+                    const rulesYaml = parts.length >= 3 ? parts[2] : yamlText;
+                    const yamlData = jsyaml.load(rulesYaml);
+
+                    const frontMatter = parts.length >= 3 ? parts[1] : '';
                     displayFrontMatter(frontMatter);
-
-                    injectExamples(yamlData.rules);
                     displayRules(yamlData.rules);
+
+                    // Check if there's a hash in the URL and scroll to the rule if it exists
+                    if (window.location.hash) {
+                        const element = document.querySelector(window.location.hash);
+                        if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
                 } catch (error) {
                     content.innerHTML = `<div>Error loading file: ${error.message}</div>`;
                 }
             } else {
-                content.innerHTML = '<h1>Distributed Spectral Ruleset</h1><p>This page displays the rules defined in this distributed Spectral ruleset. Select a file from the sidebar to view its rules.</p>';
+                content.innerHTML = '<h1>Distributed Spectral Ruleset</h1><p>Select a rules file from the sidebar to view its rules.</p>';
             }
         });
 
         function extractFrontMatter(yamlText) {
-            // Match all comment lines after the '---' line and before the first non-comment line
-            const frontMatterMatch = yamlText.match(/---\n((#.*\n)*)/);
+            // Match content between --- delimiters at the start of the file
+            const frontMatterRegex = /^---\n([\s\S]*?)\n---\n/;
+            const frontMatterMatch = yamlText.match(frontMatterRegex);
             return frontMatterMatch ? frontMatterMatch[1].trim() : '';
         }
 
         function displayFrontMatter(frontMatter) {
+            if (!frontMatter) return;
+
             const frontMatterDiv = document.createElement('div');
             frontMatterDiv.className = 'front-matter';
-            frontMatterDiv.innerHTML = `<pre>${frontMatter}</pre>`;
+
+            try {
+                // Try to parse the front matter as YAML
+                const parsedFrontMatter = jsyaml.load(frontMatter);
+                const description = parsedFrontMatter.description;
+                // frontMatterDiv.innerHTML = `
+                //     <h2>${description}</h2>
+                // `;
+                frontMatterDiv.innerHTML = ``;
+            } catch (error) {
+                // Fallback to displaying raw front matter if parsing fails
+                frontMatterDiv.innerHTML = `
+                    <pre>${frontMatter}</pre>
+                `;
+            }
+
             content.innerHTML = ''; // Clear existing content
             content.appendChild(frontMatterDiv);
-        }
-
-        function injectExamples(rules) {
-            if (!rules) return;
-
-            for (const [key, rule] of Object.entries(rules)) {
-                if (rule.description) {
-                    const incorrectMatch = rule.description.match(/Incorrect:\s*```json\s*([\s\S]*?)\n```/);
-                    const correctMatch = rule.description.match(/Correct:\s*```json\s*([\s\S]*?)\n```/);
-
-                    if (incorrectMatch) {
-                        rule.incorrect = incorrectMatch[1].trim();
-                    }
-                    if (correctMatch) {
-                        rule.correct = correctMatch[1].trim();
-                    }
-
-                    // Remove the example sections from the description
-                    rule.description = rule.description.replace(/Incorrect:\s*```json[\s\S]*?```/, '').replace(/Correct:\s*```json\s*.*?```/gs, '').trim();
-                }
-            }
         }
 
         function displayRules(rules) {
@@ -150,27 +185,28 @@
 
             for (const [title, rule] of Object.entries(rules)) {
                 const ruleDiv = document.createElement('div');
+                // Add an id to the div using the rule title (sanitized for URL)
+                const ruleId = `rule-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+                ruleDiv.id = ruleId;
+
+                // Check if either example is missing
+                const missingExample = !rule.incorrect || !rule.correct;
+
                 ruleDiv.innerHTML = `
-                    <div class="rule-title">${title}</div>
+                    <div class="rule-title">
+                        <a href="#${ruleId}">${title}</a>
+                        ${missingExample ? '<span style="color: red; margin-left: 10px;">MISSING EXAMPLES</span>' : ''}
+                    </div>
                     <div class="rule-description">${rule.description || 'No description available.'}</div>
                     ${rule.incorrect ? `<div class="example-title">Incorrect:</div>
-                        <div class="example">
-                            <pre class="line-numbers"><code class="language-json">${rule.incorrect}</code></pre>
+                        <div class="example incorrect">
+                            <pre class="line-numbers" data-line="${rule['incorrect-prism-highlight']}"><code class="language-json">${rule.incorrect}</code></pre>
                         </div>` : ''}
                     ${rule.correct ? `<div class="example-title">Correct:</div>
-                        <div class="example">
-                            <pre class="line-numbers"><code class="language-json">${rule.correct}</code></pre>
+                        <div class="example correct">
+                            <pre class="line-numbers" data-line="${rule['correct-prism-highlight']}"><code class="language-json">${rule.correct}</code></pre>
                         </div>` : ''}
                 `;
-
-                // <div class="details">
-                //   <div class="details-title">Code:</div>
-                //   <pre>
-                //   Severity: ${rule.severity || 'N/A'}
-                //   Given: ${rule.given || 'N/A'}
-                //   Then: ${JSON.stringify(rule.then, null, 2) || 'N/A'}
-                //   </pre>
-                // </div>
 
                 content.appendChild(ruleDiv);
             }
@@ -186,14 +222,17 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 
     <!-- Copy to Clipboard Plugin -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
     <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script> -->
 
     <!-- Line Numbers Plugin -->
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
 
+    <!-- Line Highlight Plugin -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-highlight/prism-line-highlight.min.js"></script>
 </body>
 
 </html>

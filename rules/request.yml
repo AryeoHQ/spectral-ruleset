@@ -1,0 +1,265 @@
+---
+description: "Rules related to requests (e.g. headers, params, bodies, security)."
+---
+rules:
+  request-get-has-body:
+    description: GET requests should not specify a `requestBody`.
+    incorrect: |-
+      {
+        "/companies": {
+          "get": {
+            "requestBody": { ... }
+          }
+        }
+      }
+    incorrect-prism-highlight: "4"
+    correct: |-
+      {
+        "/companies": {
+          "get": { ... }
+        }
+      }
+    correct-prism-highlight: ""
+    severity: off
+    given: '$.paths..get.requestBody'
+    then:
+      function: falsy
+  request-header-not-ref:
+    description: Request headers must be specified using a `$ref`.
+    incorrect: |-
+      {
+        "headers": {
+          "X-Custom-Header": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "A custom header."
+          }
+        }
+      }
+    incorrect-prism-highlight: "4-7"
+    correct: |-
+      {
+        "headers": {
+          "X-Custom-Header": {
+            "$ref": "../components/headers/x-custom-header.json"
+          }
+        }
+      }
+    correct-prism-highlight: "4"
+    given:
+      - '$..headers.*'
+    resolved: false
+    severity: off
+    then:
+      - field: $ref
+        function: truthy
+  request-header-not-ref-to-comp-dir:  
+    description: Request headers must be specified using a `$ref` to the `../components/headers` directory.
+    incorrect: |-
+      {
+        "headers": {
+          "X-Custom-Header": {
+            "$ref": "../some-path/headers/x-custom-header.json"
+          }
+        }
+      }
+    incorrect-prism-highlight: "4"
+    correct: |-
+      {
+        "headers": {
+          "X-Custom-Header": {
+            "$ref": "../components/headers/x-custom-header.json"
+          }
+        }
+      }
+    correct-prism-highlight: "4"
+    given:
+      - '$..headers.*.$ref'
+    severity: off
+    then:
+      - field: $ref
+        function: pattern
+        functionOptions:
+          match: "^\\.\\.\/(components\/)?headers\/.*\\.json$"
+  request-missing-header-x-stplus-request-id:
+    description: Paths must include the `X-STPlus-Request-Id` context header.
+    incorrect: |-
+      {
+        "headers": { ... }
+      }
+    incorrect-prism-highlight: ""
+    correct: |-
+      {
+        "headers": {
+          "X-STPlus-Request-Id": { ... }
+        }
+      }
+    correct-prism-highlight: "3"
+    severity: off
+    given:
+      - '$.*'    
+    then:
+      field: parameters
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          contains:
+            type: object
+            properties:
+              name:
+                type: string
+                pattern: ^X-STPlus-Request-Id$
+              in:
+                type: string
+                pattern: ^header$
+  request-missing-header-x-stplus-request-ip:
+    description: Paths must include the `X-STPlus-Request-Ip` context header.    
+    incorrect: |-
+      {
+        "headers": { ... }
+      }
+    incorrect-prism-highlight: ""
+    correct: |-
+      {
+        "headers": {
+          "X-STPlus-Request-Ip": { ... }
+        }
+      }
+    correct-prism-highlight: "3"        
+    severity: off
+    given:
+      - '$.*'
+    then:
+      field: parameters
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          contains:
+            type: object
+            properties:
+              name:
+                type: string
+                pattern: ^X-STPlus-Request-Ip$
+              in:
+                type: string
+                pattern: ^header$
+  request-missing-header-x-stplus-request-user-agent:
+    description: Paths must include the `X-STPlus-Request-User-Agent` context header.
+    incorrect: |-
+      {
+        "headers": { ... }
+      }
+    incorrect-prism-highlight: ""
+    correct: |-
+      {
+        "headers": {
+          "X-STPlus-Request-User-Agent": { ... }
+        }
+      }
+    correct-prism-highlight: "3"
+    severity: off
+    given:
+      - '$.*' 
+    then:
+      field: parameters
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          contains:
+            type: object
+            properties:
+              name:
+                type: string
+                pattern: ^X-STPlus-Request-User-Agent$
+              in:
+                type: string
+                pattern: ^header$
+  request-missing-header-x-stplus-request-timezone:
+    description: Paths must include the `X-STPlus-Request-Timezone` context header.
+    incorrect: |-
+      {
+        "headers": { ... }
+      }
+    incorrect-prism-highlight: ""
+    correct: |-
+      {
+        "headers": {
+          "X-STPlus-Request-Timezone": { ... }
+        }
+      }
+    correct-prism-highlight: "3"
+    severity: off
+    given:
+      - '$.*' 
+    then:
+      field: parameters
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          contains:
+            type: object
+            properties:
+              name:
+                type: string
+                pattern: ^X-STPlus-Request-Timezone$
+              in:
+                type: string
+                pattern: ^header$
+  request-missing-header-x-stplus-request-language:
+    description: Paths must include the `X-STPlus-Request-Language` context header.
+    incorrect: |-
+      {
+        "headers": { ... }
+      }
+    incorrect-prism-highlight: ""
+    correct: |-
+      {
+        "headers": {
+          "X-STPlus-Request-Language": { ... }
+        }
+      }
+    correct-prism-highlight: "3"
+    severity: off
+    given:
+      - '$.*'    
+    then:
+      field: parameters
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          contains:
+            type: object
+            properties:
+              name:
+                type: string
+                pattern: ^X-STPlus-Request-Language$
+              in:
+                type: string
+                pattern: ^header$
+  request-security-missing-type-description:
+    description: Security schemes must have a `type` and `description`.
+    incorrect: |-
+      {
+        "scheme": "bearer"
+      }
+    incorrect-prism-highlight: ""
+    correct: |-
+      {
+        "scheme": "bearer",
+        "type": "http",
+        "description": "A JWT.",
+      }
+    correct-prism-highlight: "3-4"
+    severity: off
+    given: '$.'
+    then:
+      - field: type
+        function: truthy
+      - field: description
+        function: truthy        

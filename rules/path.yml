@@ -1,0 +1,105 @@
+---
+description: "Rules related to paths."
+---
+rules:
+  path-has-nested-action:
+    description: Paths cannot have nested actions.
+    incorrect: |-
+      {
+        "/companies/actions/something/actions/something-else": { ... }
+      }
+    incorrect-prism-highlight: "2"
+    correct: |-
+      {
+        "/companies/actions/do-something": { ... }
+      }
+    correct-prism-highlight: "2"
+    given:
+      - $.paths
+    severity: off
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: (\/actions).*(\/actions)
+      field: '@key'
+  path-has-nested-action-resource:
+    description: Paths cannot have resources nested after actions.
+    incorrect: |-
+      {
+        "/workspace/{workspace_id}/actions/reports/{report_id}": { ... }
+      }
+    incorrect-prism-highlight: "2"
+    correct: |-
+      {
+        "/workspace/{workspace_id}/actions/do-something": { ... },
+        "/reports/{report_id}/actions/do-something-else": { ... },
+      }
+    correct-prism-highlight: "2-3"
+    given:
+      - $.paths
+    severity: off
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '(\/{.*})(\/.*)?\/actions(\/.*)?(\/{.*})'
+      field: '@key'
+  path-not-ref:
+    description: Paths must be specified using a `$ref`.
+    incorrect: |-
+      {
+        "/companies": {
+          "get": {
+            "responses": {
+              "200": {
+                "content": { ... }
+              }
+            }
+          }
+        }
+      }
+    incorrect-prism-highlight: "3-9"
+    correct: |-
+      {
+        "/companies": {
+          "$ref": "./paths/companies.json"
+        }
+      }
+    correct-prism-highlight: "3"
+    given:
+      - '$.paths.*'
+    resolved: false
+    severity: off
+    then:
+      - field: $ref
+        function: truthy
+  path-not-ref-to-path-dir:
+    description: Paths must be specified using a `$ref` to the `./paths` directory.
+    incorrect: |-
+      {
+        "/companies": {
+          "$ref": "./random-path/paths/companies.json"
+        },
+        "/organizations": {
+          "$ref": "./another-path/companies.json"
+        }
+      }
+    incorrect-prism-highlight: "3,6"
+    correct: |-
+      {
+        "/companies": {
+          "$ref": "./paths/companies.json"
+        },
+        "/organizations": {
+          "$ref": "./paths/organizations/organizations.json"
+        }
+      }
+    correct-prism-highlight: "3,6"
+    given:
+      - '$.paths.*.$ref'
+    severity: off
+    then:
+      - field: $ref
+        function: pattern
+        functionOptions:
+          match: "^\\.\/paths\/.*\\.json$"
+          
