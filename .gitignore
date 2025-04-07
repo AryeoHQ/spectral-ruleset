@@ -1,3 +1,4 @@
 *.DS_Store
 temp.yml
 *.spectral.yml
+report.html

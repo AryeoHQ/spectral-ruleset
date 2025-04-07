@@ -46,7 +46,28 @@ awk -v rule="  ${SELECTED_RULE}:" '
 ' "$RULE_FILE" >> ./examples/specs/bundled/.spectral.yml
 
 # test
-npx @quobix/vacuum lint -d -r ./examples/specs/bundled/.spectral.yml ./examples/specs/bundled/openapi.json
+echo "Select a command to run:"
+select cmd in "lint" "dashboard" "html-report"; do
+  case $cmd in
+    "lint")
+      npx @quobix/vacuum lint -d -r ./examples/specs/bundled/.spectral.yml ./examples/specs/bundled/openapi.json
+      break
+      ;;
+    "dashboard")
+      npx @quobix/vacuum dashboard -r ./examples/specs/bundled/.spectral.yml ./examples/specs/bundled/openapi.json
+      break
+      ;;
+    "html-report")
+      npx @quobix/vacuum html-report -r ./examples/specs/bundled/.spectral.yml ./examples/specs/bundled/openapi.json
+      open report.html
+      break
+      ;;
+    *) 
+      echo "Invalid option"
+      ;;
+  esac
+done
 
 # clean up
 rm -f ./examples/specs/bundled/.spectral.yml
+rm -f report.html
