@@ -1,0 +1,10 @@
+{
+  "name": "pet-id",
+  "in": "path",
+  "description": "ID of pet to return",
+  "required": true,
+  "schema": {
+    "type": "integer",
+    "format": "int64"
+  }
+}

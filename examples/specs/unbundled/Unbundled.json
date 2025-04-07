@@ -1,0 +1,59 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Swagger Petstore",
+    "description": "This is a sample Pet Store Server based on the OpenAPI 3.1 specification.",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.11"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "https://petstore3.swagger.io/api/v3"
+    }
+  ],
+  "tags": [
+    {
+      "name": "pet",
+      "description": "Everything about your Pets"
+    },
+    {
+      "name": "store",
+      "description": "Access to Petstore orders"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user"
+    }
+  ],
+  "paths": {
+    "/pet": {
+      "$ref": "./paths/pet.json"
+    },
+    "/pet/{pet-id}": {
+      "$ref": "./paths/pet-pet-id.json"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "petstore_auth": {
+        "$ref": "./components/securitySchemes/petstore_auth.json"
+      }
+    },
+    "headers": {
+      "X-Rate-Limit-Remaining": {
+        "$ref": "./components/headers/X-Rate-Limit-Remaining.json"
+      }
+    }
+  }
+}
