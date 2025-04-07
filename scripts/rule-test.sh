@@ -46,7 +46,7 @@ awk -v rule="  ${SELECTED_RULE}:" '
 ' "$RULE_FILE" >> ./examples/specs/bundled/.spectral.yml
 
 # test
-npx @quobix/vacuum lint -d -r ./examples/specs/bundled/.spectral.yml ./examples/specs/bundled/Bundled.json
+npx @quobix/vacuum lint -d -r ./examples/specs/bundled/.spectral.yml ./examples/specs/bundled/openapi.json
 
 # clean up
 rm -f ./examples/specs/bundled/.spectral.yml
