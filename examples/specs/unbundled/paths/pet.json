@@ -75,7 +75,7 @@
         "description": "Successful operation",
         "headers": {
           "X-Rate-Limit-Remaining": {
-            "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+            "$ref": "../components/headers/X-Rate-Limit-Remaining.json"
           }
         },
         "content": {
