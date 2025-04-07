@@ -1,65 +1,83 @@
----
-description: "Rules related to data types (e.g. null, object, array, or primitives)."
+description: Rules related to data types (e.g. null, object, array, or primitives).
 ---
 rules:
   data-array-missing-item:
-    description: Arrays must specify their items.
-    incorrect: |-      
+    description: |-
+      Arrays must specify their items.
+
+      # Incorrect
       {
         "type": "array"
       }
-    incorrect-prism-highlight: ""
-    correct: |-
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "type": "array",
         "items": { ... }
-      }   
-    correct-prism-highlight: "3"
-    severity: off
+      }
+
+      # Correct Prism Highlight
+      3
+    severity: 'off'
     given:
-      - "$..paths.*.*.parameters..[?(@.type == 'array')]"
-      - "$..paths.*.parameters..[?(@.type == 'array')]"
-      - "$..properties..[?(@.type == 'array')]"
+    - $..paths.*.*.parameters..[?(@.type == 'array')]
+    - $..paths.*.parameters..[?(@.type == 'array')]
+    - $..properties..[?(@.type == 'array')]
     then:
       field: items
       function: truthy
   data-array-missing-item-type:
-    description: Arrays must specify an item type.
-    incorrect: |-      
+    description: |-
+      Arrays must specify an item type.
+
+      # Incorrect
       {
         "type": "array",
         "items": { ... }
       }
-    incorrect-prism-highlight: ""
-    correct: |-      
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "type": "array",
         "items": {
           "$ref": "./Model.json"
         }
       }
-    correct-prism-highlight: "3-5"    
-    severity: off
+
+      # Correct Prism Highlight
+      3-5
+    severity: 'off'
     given:
-      - "$..paths.*.*.parameters..[?(@.type == 'array')].items"
-      - "$..paths.*.parameters..[?(@.type == 'array')].items"
-      - "$..properties..[?(@.type == 'array')].items"
+    - $..paths.*.*.parameters..[?(@.type == 'array')].items
+    - $..paths.*.parameters..[?(@.type == 'array')].items
+    - $..properties..[?(@.type == 'array')].items
     then:
       function: xor
       functionOptions:
         properties:
-          - type
-          - '$ref'
+        - type
+        - $ref
   data-missing-description:
-    description: Properties and parameters must have a non-empty `description`.
-    incorrect: |-      
+    description: |-
+      Properties and parameters must have a non-empty `description`.
+
+      # Incorrect
       {
         "properties": {
           "first_name": { ... }
         }
       }
-    incorrect-prism-highlight: ""
-    correct: |-      
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "properties": {
           "first_name": {
@@ -67,17 +85,22 @@ rules:
           }
         }
       }
-    correct-prism-highlight: "4"
-    severity: off
+
+      # Correct Prism Highlight
+      4
+    severity: 'off'
     given:
-      - "$..properties.[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type == 'boolean'||@.type == 'object')]"
-      - "$..parameters[*]"
+    - $..properties.[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type
+      == 'boolean'||@.type == 'object')]
+    - $..parameters[*]
     then:
-      - field: description
-        function: truthy
+    - field: description
+      function: truthy
   data-missing-example:
-    description: Properties and parameters must have a non-empty `example`.
-    incorrect: |-      
+    description: |-
+      Properties and parameters must have a non-empty `example`.
+
+      # Incorrect
       {
         "properties": {
           "street_number": {
@@ -88,8 +111,11 @@ rules:
           }
         }
       }
-    incorrect-prism-highlight: ""
-    correct: |-            
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "properties": {
           "street_number": {
@@ -101,18 +127,24 @@ rules:
             "example": "Jarrod"
           }
         }
-      } 
-    correct-prism-highlight: "5,9"
-    severity: off
+      }
+
+      # Correct Prism Highlight
+      5,9
+    severity: 'off'
     given:
-      - "$..properties[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type == 'boolean')]"
-      - "$..parameters[*][?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type == 'boolean')]"
+    - $..properties[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type
+      == 'boolean')]
+    - $..parameters[*][?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type
+      == 'boolean')]
     then:
-      - field: example
-        function: truthy
+    - field: example
+      function: truthy
   data-not-type-or-ref:
-    description: Properties and parameters should specify either a `type` or `$ref`. Composite types are not allowed because they are not supported by most SDK generation tools.
-    incorrect: |-      
+    description: |-
+      Properties and parameters should specify either a `type` or `$ref`. Composite types are not allowed because they are not supported by most SDK generation tools.
+
+      # Incorrect
       {
         "properties": {
           "user": {
@@ -127,8 +159,11 @@ rules:
           }
         }
       }
-    incorrect-prism-highlight: "4-11"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      4-11
+
+      # Correct
       {
         "properties": {
           "user": {
@@ -136,51 +171,65 @@ rules:
           }
         }
       }
-    correct-prism-highlight: "4"
-    severity: off
+
+      # Correct Prism Highlight
+      4
+    severity: 'off'
     given:
-      - '$..properties.*'
-      - '$..parameters[*].schema'
+    - $..properties.*
+    - $..parameters[*].schema
     then:
-      - function: xor
-        functionOptions:
-          properties:
-            - type
-            - $ref
+    - function: xor
+      functionOptions:
+        properties:
+        - type
+        - $ref
   data-object-missing-additional-prop:
-    description: Objects must define `additionalProperties` as true or false. Default to false.
-    incorrect: |-      
+    description: |-
+      Objects must define `additionalProperties` as true or false. Default to false.
+
+      # Incorrect
       {
         "title": "Model",
         "type": "object",
         "properties": { ... }
-      }      
-    incorrect-prism-highlight: ""
-    correct: |-      
+      }
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "title": "Model",
         "type": "object",
         "properties": { ... },
         "additionalProperties": false
       }
-    correct-prism-highlight: "5"
-    severity: off
+
+      # Correct Prism Highlight
+      5
+    severity: 'off'
     given:
-      - '$'
-      - "$..[?(@.type == 'object')]"
+    - $
+    - $..[?(@.type == 'object')]
     then:
-      - field: additionalProperties
-        function: defined
+    - field: additionalProperties
+      function: defined
   data-prop-missing-type-and-description:
-    description: Properties must have a non-empty `type` and `description`.
-    incorrect: |-      
+    description: |-
+      Properties must have a non-empty `type` and `description`.
+
+      # Incorrect
       {
         "properties": {
           "first_name": { ... }
         }
       }
-    incorrect-prism-highlight: ""
-    correct: |-      
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "properties": {
           "first_name": {
@@ -189,17 +238,22 @@ rules:
           }
         }
       }
-    correct-prism-highlight: "4-5"    
-    severity: off
-    given: "$..properties.[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type == 'boolean'||@.type == 'object')]"
+
+      # Correct Prism Highlight
+      4-5
+    severity: 'off'
+    given: $..properties.[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type
+      == 'boolean'||@.type == 'object')]
     then:
-      - field: type
-        function: truthy
-      - field: description
-        function: truthy
+    - field: type
+      function: truthy
+    - field: description
+      function: truthy
   data-string-date-not-iso-8601:
-    description: Date properties and parameters must be specified in ISO 8601 (yyyy-mm-dd) format.
-    incorrect: |-
+    description: |-
+      Date properties and parameters must be specified in ISO 8601 (yyyy-mm-dd) format.
+
+      # Incorrect
       {
         "properties": {
           "start_date": {
@@ -207,8 +261,11 @@ rules:
           }
         }
       }
-    incorrect-prism-highlight: ""
-    correct: |-
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "properties": {
           "start_date": {
@@ -220,29 +277,33 @@ rules:
           }
         }
       }
-    correct-prism-highlight: "5-8"
-    severity: off
+
+      # Correct Prism Highlight
+      5-8
+    severity: 'off'
     given:
-      - "$..properties[?(@.type == 'string'&&@.format == 'date')]"
-      - "$..parameters[*][?(@.type == 'string'&&@.format == 'date')]"
+    - $..properties[?(@.type == 'string'&&@.format == 'date')]
+    - $..parameters[*][?(@.type == 'string'&&@.format == 'date')]
     then:
-      - field: example
-        function: pattern
-        functionOptions:
-          match: "\\d{4}-\\d{2}-\\d{2}"    
-      - field: minLength
-        function: length
-        functionOptions:
-          max: 10
-          min: 10
-      - field: maxLength
-        function: length
-        functionOptions:
-          max: 10
-          min: 10
+    - field: example
+      function: pattern
+      functionOptions:
+        match: \\d{4}-\\d{2}-\\d{2}
+    - field: minLength
+      function: length
+      functionOptions:
+        max: 10
+        min: 10
+    - field: maxLength
+      function: length
+      functionOptions:
+        max: 10
+        min: 10
   data-string-date-time-not-iso-8601:
-    description: Date-time properties and parameters must be specified in ISO 8601 (yyyy-MM-ddTHH:mm:ss.fffZ) format. Millisecond precision is provided with 3 decimal digits.
-    incorrect: |-
+    description: |-
+      Date-time properties and parameters must be specified in ISO 8601 (yyyy-MM-ddTHH:mm:ss.fffZ) format. Millisecond precision is provided with 3 decimal digits.
+
+      # Incorrect
       {
         "properties": {
           "start_time": {
@@ -250,8 +311,11 @@ rules:
           }
         }
       }
-    incorrect-prism-highlight: ""
-    correct: |-
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "properties": {
           "start_time": {
@@ -263,71 +327,60 @@ rules:
           }
         }
       }
-    correct-prism-highlight: "5-8"
-    severity: off
+
+      # Correct Prism Highlight
+      5-8
+    severity: 'off'
     given:
-      - "$..properties[?(@.type == 'string'&&@.format == 'date-time')]"
-      - "$..parameters[*][?(@.type == 'string'&&@.format == 'date-time')]"
+    - $..properties[?(@.type == 'string'&&@.format == 'date-time')]
+    - $..parameters[*][?(@.type == 'string'&&@.format == 'date-time')]
     then:
-      - field: example
-        function: pattern
-        functionOptions:
-          match: "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z"
-      - field: minLength
-        function: length
-        functionOptions:
-          max: 24
-          min: 24
-      - field: maxLength
-        function: length
-        functionOptions:
-          max: 24
-          min: 24
+    - field: example
+      function: pattern
+      functionOptions:
+        match: \\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z
+    - field: minLength
+      function: length
+      functionOptions:
+        max: 24
+        min: 24
+    - field: maxLength
+      function: length
+      functionOptions:
+        max: 24
+        min: 24
   data-string-format-not-known:
-    description: String formats must be in set (date,date-time,password,byte,binary,email,uuid,uri,base64,float,double,int32,int64).
-    incorrect: |-      
-      {
-        "properties": {
-          "created_at": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
-      }
-    incorrect-prism-highlight: "5"
-    correct: |-      
-      {
-        "properties": {
-          "created_at": {
-            "type": "string",          
-            "format": "date-time"
-          }
-        }
-      }
-    correct-prism-highlight: "5"
-    severity: off
+    description: "String formats must be in set (date,date-time,password,byte,binary,email,uuid,uri,base64,float,double,int32,int64).\n\
+      \n# Incorrect\n{\n  \"properties\": {\n    \"created_at\": {\n      \"type\"\
+      : \"string\",\n      \"format\": \"datetime\"\n    }\n  }\n}\n\n# Incorrect\
+      \ Prism Highlight\n5\n\n# Correct\n{\n  \"properties\": {\n    \"created_at\"\
+      : {\n      \"type\": \"string\",          \n      \"format\": \"date-time\"\n\
+      \    }\n  }\n}\n\n# Correct Prism Highlight\n5"
+    severity: 'off'
     given:
-      - '$..format'
+    - $..format
     then:
       function: enumeration
       functionOptions:
         values:
-          - 'date'
-          - 'date-time'
-          - 'password'
-          - 'byte'
-          - 'binary'
-          - 'email'
-          - 'uuid'
-          - 'uri'
-          - 'base64'
-          - 'float'
-          - 'double'
-          - 'int32'
-          - 'int64'
+        - date
+        - date-time
+        - password
+        - byte
+        - binary
+        - email
+        - uuid
+        - uri
+        - base64
+        - float
+        - double
+        - int32
+        - int64
   data-string-missing-min-max:
-    description: String properties and parameters must specify a `minLength` and `maxLength`.
-    incorrect: |-      
+    description: |-
+      String properties and parameters must specify a `minLength` and `maxLength`.
+
+      # Incorrect
       {
         "properties": {
           "first_name": {
@@ -335,8 +388,11 @@ rules:
           }
         }
       }
-    incorrect-prism-highlight: ""
-    correct: |-      
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "properties": {
           "first_name": {
@@ -346,14 +402,16 @@ rules:
           }
         }
       }
-    correct-prism-highlight: "5-6"
-    severity: off
+
+      # Correct Prism Highlight
+      5-6
+    severity: 'off'
     given:
-      - "$..properties[?(@.type == 'string')]"
-      - "$..paths.*.*.parameters.*[?(@.type == 'string')]"
-      - "$..paths.*.parameters.*[?(@.type == 'string')]"
+    - $..properties[?(@.type == 'string')]
+    - $..paths.*.*.parameters.*[?(@.type == 'string')]
+    - $..paths.*.parameters.*[?(@.type == 'string')]
     then:
-      - field: minLength
-        function: defined
-      - field: maxLength
-        function: truthy
+    - field: minLength
+      function: defined
+    - field: maxLength
+      function: truthy

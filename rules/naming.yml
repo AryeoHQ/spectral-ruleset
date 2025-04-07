@@ -1,10 +1,11 @@
----
-description: "Rules related to naming conventions (e.g. lower_snake_case)."
+description: Rules related to naming conventions (e.g. lower_snake_case).
 ---
 rules:
   naming-header-name-not-hyphenated-pascal-case:
-    description: Header names must use `Hyphenated-Pascal-Case`.
-    incorrect: |-      
+    description: |-
+      Header names must use `Hyphenated-Pascal-Case`.
+
+      # Incorrect
       {
         "get": {
           "responses": {
@@ -16,8 +17,11 @@ rules:
           }
         }
       }
-    incorrect-prism-highlight: "6"
-    correct: |-      
+
+      # Incorrect Prism Highlight
+      6
+
+      # Correct
       {
         "get": {
           "responses": {
@@ -29,81 +33,87 @@ rules:
           }
         }
       }
-    correct-prism-highlight: "6"
+
+      # Correct Prism Highlight
+      6
     given:
-      - '$..parameters[?(@.in == ''header'')].name'
-      - $..headers.*~
-    severity: off
+    - $..parameters[?(@.in == ''header'')].name
+    - $..headers.*~
+    severity: 'off'
     then:
       function: pattern
       functionOptions:
-        match: '^([A-Z]+[a-z0-9]*-)+([A-Z]+[a-z0-9]*)$'
+        match: ^([A-Z]+[a-z0-9]*-)+([A-Z]+[a-z0-9]*)$
   naming-path-name-not-lower-kebab-case:
-    description: Path names must use `lower-kebab-case`.
-    incorrect: |-      
+    description: |-
+      Path names must use `lower-kebab-case`.
+
+      # Incorrect
       {
         "paths": {
           "/Company-Details": { ... }
         }
       }
-    incorrect-prism-highlight: "3"
-    correct: |- 
+
+      # Incorrect Prism Highlight
+      3
+
+      # Correct
       {
         "paths": {
           "/company-details": { ... }
         }
       }
-    correct-prism-highlight: "3"
-    severity: off
+
+      # Correct Prism Highlight
+      3
+    severity: 'off'
     given:
-      - $.paths
+    - $.paths
     then:
       function: pattern
       functionOptions:
-        match: '^/([a-z0-9.]+(-[a-z0-9.]+)*)?(/[a-z0-9.]+(-[a-z0-9.]+)*|/{.+})*$'
+        match: ^/([a-z0-9.]+(-[a-z0-9.]+)*)?(/[a-z0-9.]+(-[a-z0-9.]+)*|/{.+})*$
       field: '@key'
   naming-path-name-not-lower-kebab-case-with-param-snake-case:
-    description: Path names must use `lower-kebab-case` with `lower_snake_case` parameters, if provided.
-    incorrect: |-      
-      {
-        "paths": {      
-          "/usCompanies/{COMPANY-ID}": { ... }
-        }
-      }
-    incorrect-prism-highlight: "3"
-    correct: |-      
-      {
-        "paths": {      
-          "/us-companies/{company_id}": { ... }
-        }
-      }
-    correct-prism-highlight: "3"    
-    severity: off
+    description: "Path names must use `lower-kebab-case` with `lower_snake_case` parameters,\
+      \ if provided.\n\n# Incorrect\n{\n  \"paths\": {      \n    \"/usCompanies/{COMPANY-ID}\"\
+      : { ... }\n  }\n}\n\n# Incorrect Prism Highlight\n3\n\n# Correct\n{\n  \"paths\"\
+      : {      \n    \"/us-companies/{company_id}\": { ... }\n  }\n}\n\n# Correct\
+      \ Prism Highlight\n3"
+    severity: 'off'
     given:
-      - $.paths[*]~
+    - $.paths[*]~
     then:
-      - function: pattern
-        functionOptions:
-          match: '[a-z0-9]+(?:_[a-z0-9]+)*'  
+    - function: pattern
+      functionOptions:
+        match: '[a-z0-9]+(?:_[a-z0-9]+)*'
   naming-path-param-name-not-camel-case:
-    description: Path parameter names must use `camelCase`. Digits are not allowed.
-    incorrect: |-
+    description: |-
+      Path parameter names must use `camelCase`. Digits are not allowed.
+
+      # Incorrect
       {
         "paths": {
           "/companies/{COMPANY-ID}": { ... }
         }
-      }      
-    incorrect-prism-highlight: "3"
-    correct: |-
+      }
+
+      # Incorrect Prism Highlight
+      3
+
+      # Correct
       {
         "paths": {
           "/companies/{companyId}": { ... }
         }
       }
-    correct-prism-highlight: "3"
-    severity: off
+
+      # Correct Prism Highlight
+      3
+    severity: 'off'
     given:
-      - '$..parameters[?(@.in == ''path'')]'
+    - $..parameters[?(@.in == ''path'')]
     then:
       function: casing
       functionOptions:
@@ -111,25 +121,31 @@ rules:
         disallowDigits: true
       field: name
   naming-path-param-name-not-lower-snake-case:
-    description: Path parameter names must use `lower_snake_case`. Digits are not allowed.
+    description: |-
+      Path parameter names must use `lower_snake_case`. Digits are not allowed.
 
-    incorrect: |-
+      # Incorrect
       {
         "paths": {
           "/companies/{COMPANY-ID}": { ... }
         }
-      }      
-    incorrect-prism-highlight: "3"
-    correct: |-
+      }
+
+      # Incorrect Prism Highlight
+      3
+
+      # Correct
       {
         "paths": {
           "/companies/{company_id}": { ... }
         }
       }
-    correct-prism-highlight: "3"
-    severity: off
+
+      # Correct Prism Highlight
+      3
+    severity: 'off'
     given:
-      - '$..parameters[?(@.in == ''path'')]'
+    - $..parameters[?(@.in == ''path'')]
     then:
       function: casing
       functionOptions:
@@ -137,25 +153,32 @@ rules:
         disallowDigits: true
       field: name
   naming-prop-name-not-camel-case:
-    description: Property names must use `camelCase`. Digits are not allowed.
-    incorrect: |-
+    description: |-
+      Property names must use `camelCase`. Digits are not allowed.
+
+      # Incorrect
       {
         "properties": {
           "RESOURCE-ID": { ... }
         }
       }
-    incorrect-prism-highlight: "3"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      3
+
+      # Correct
       {
         "properties": {
           "resourceId": { ... }
         }
       }
-    correct-prism-highlight: "3"
-    severity: off
+
+      # Correct Prism Highlight
+      3
+    severity: 'off'
     given:
-      - $..properties.*~
-      - '$..schema.properties[*]~'
+    - $..properties.*~
+    - $..schema.properties[*]~
     then:
       function: casing
       functionOptions:
@@ -163,34 +186,43 @@ rules:
         disallowDigits: true
       field: name
   naming-prop-name-not-lower-snake-case:
-    description: Property names must use `lower_snake_case`. Digits are not allowed.
-    incorrect: |-
+    description: |-
+      Property names must use `lower_snake_case`. Digits are not allowed.
+
+      # Incorrect
       {
         "properties": {
           "RESOURCE-ID": { ... }
         }
       }
-    incorrect-prism-highlight: "3"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      3
+
+      # Correct
       {
         "properties": {
           "resource_id": { ... }
         }
       }
-    correct-prism-highlight: "3"
-    severity: off
+
+      # Correct Prism Highlight
+      3
+    severity: 'off'
     given:
-      - '$..properties.*~'
-      - '$..schema.properties[*]~'      
+    - $..properties.*~
+    - $..schema.properties[*]~
     then:
       function: casing
       functionOptions:
         type: snake
         disallowDigits: true
-      field: name  
+      field: name
   naming-query-param-name-not-camel-case:
-    description: Query parameter names must use `camelCase`. Digits are not allowed.
-    incorrect: |-
+    description: |-
+      Query parameter names must use `camelCase`. Digits are not allowed.
+
+      # Incorrect
       {
         "parameters": [
           {
@@ -199,8 +231,11 @@ rules:
           }
         ]
       }
-    incorrect-prism-highlight: "5"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      5
+
+      # Correct
       {
         "parameters": [
           {
@@ -209,19 +244,23 @@ rules:
           }
         ]
       }
-    correct-prism-highlight: "5"
-    severity: off
+
+      # Correct Prism Highlight
+      5
+    severity: 'off'
     given:
-      - '$..parameters[?(@.in == ''query'')]'
+    - $..parameters[?(@.in == ''query'')]
     then:
       function: casing
       functionOptions:
         type: camel
         disallowDigits: true
       field: name
-  naming-query-param-name-not-lower-snake-case:  
-    description: Query parameter names must use `lower_snake_case`. Digits are not allowed.
-    incorrect: |-
+  naming-query-param-name-not-lower-snake-case:
+    description: |-
+      Query parameter names must use `lower_snake_case`. Digits are not allowed.
+
+      # Incorrect
       {
         "parameters": [
           {
@@ -230,8 +269,11 @@ rules:
           }
         ]
       }
-    incorrect-prism-highlight: "5"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      5
+
+      # Correct
       {
         "parameters": [
           {
@@ -240,10 +282,12 @@ rules:
           }
         ]
       }
-    correct-prism-highlight: "5"
-    severity: off
+
+      # Correct Prism Highlight
+      5
+    severity: 'off'
     given:
-      - '$..parameters[?(@.in == ''query'')]'
+    - $..parameters[?(@.in == ''query'')]
     then:
       function: casing
       functionOptions:
@@ -251,8 +295,10 @@ rules:
         disallowDigits: true
       field: name
   naming-string-enum-value-not-upper-snake-case:
-    description: Enumeration values must use `UPPER_SNAKE_CASE`.
-    incorrect: |-
+    description: |-
+      Enumeration values must use `UPPER_SNAKE_CASE`.
+
+      # Incorrect
       {
         "property_type": {
           "type": "string",
@@ -260,8 +306,11 @@ rules:
           "enum": ["residential", "commercial", "land", "rental", "multi-family", "business-opportunity", "farm"]
         }
       }
-    incorrect-prism-highlight: "4-5"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      4-5
+
+      # Correct
       {
         "property_type": {
           "type": "string",
@@ -269,10 +318,12 @@ rules:
           "enum": ["RESIDENTIAL", "COMMERCIAL", "LAND", "RENTAL", "MULTI_FAMILY", "BUSINESS_OPPORTUNITY", "FARM"]
         }
       }
-    correct-prism-highlight: "4-5"    
-    severity: off
+
+      # Correct Prism Highlight
+      4-5
+    severity: 'off'
     given: $.properties.*.enum.*
     then:
       function: casing
       functionOptions:
-        type: macro      
+        type: macro

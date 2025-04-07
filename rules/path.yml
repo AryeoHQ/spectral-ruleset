@@ -1,51 +1,66 @@
----
-description: "Rules related to paths."
+description: Rules related to paths.
 ---
 rules:
   path-has-nested-action:
-    description: Paths cannot have nested actions.
-    incorrect: |-
+    description: |-
+      Paths cannot have nested actions.
+
+      # Incorrect
       {
         "/companies/actions/something/actions/something-else": { ... }
       }
-    incorrect-prism-highlight: "2"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      2
+
+      # Correct
       {
         "/companies/actions/do-something": { ... }
       }
-    correct-prism-highlight: "2"
+
+      # Correct Prism Highlight
+      2
     given:
-      - $.paths
-    severity: off
+    - $.paths
+    severity: 'off'
     then:
       function: pattern
       functionOptions:
         notMatch: (\/actions).*(\/actions)
       field: '@key'
   path-has-nested-action-resource:
-    description: Paths cannot have resources nested after actions.
-    incorrect: |-
+    description: |-
+      Paths cannot have resources nested after actions.
+
+      # Incorrect
       {
         "/workspace/{workspace_id}/actions/reports/{report_id}": { ... }
       }
-    incorrect-prism-highlight: "2"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      2
+
+      # Correct
       {
         "/workspace/{workspace_id}/actions/do-something": { ... },
         "/reports/{report_id}/actions/do-something-else": { ... },
       }
-    correct-prism-highlight: "2-3"
+
+      # Correct Prism Highlight
+      2-3
     given:
-      - $.paths
-    severity: off
+    - $.paths
+    severity: 'off'
     then:
       function: pattern
       functionOptions:
-        notMatch: '(\/{.*})(\/.*)?\/actions(\/.*)?(\/{.*})'
+        notMatch: (\/{.*})(\/.*)?\/actions(\/.*)?(\/{.*})
       field: '@key'
   path-not-ref:
-    description: Paths must be specified using a `$ref`.
-    incorrect: |-
+    description: |-
+      Paths must be specified using a `$ref`.
+
+      # Incorrect
       {
         "/companies": {
           "get": {
@@ -57,24 +72,31 @@ rules:
           }
         }
       }
-    incorrect-prism-highlight: "3-9"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      3-9
+
+      # Correct
       {
         "/companies": {
           "$ref": "./paths/companies.json"
         }
       }
-    correct-prism-highlight: "3"
+
+      # Correct Prism Highlight
+      3
     given:
-      - '$.paths.*'
+    - $.paths.*
     resolved: false
-    severity: off
+    severity: 'off'
     then:
-      - field: $ref
-        function: truthy
+    - field: $ref
+      function: truthy
   path-not-ref-to-path-dir:
-    description: Paths must be specified using a `$ref` to the `./paths` directory.
-    incorrect: |-
+    description: |-
+      Paths must be specified using a `$ref` to the `./paths` directory.
+
+      # Incorrect
       {
         "/companies": {
           "$ref": "./random-path/paths/companies.json"
@@ -83,8 +105,11 @@ rules:
           "$ref": "./another-path/companies.json"
         }
       }
-    incorrect-prism-highlight: "3,6"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      3,6
+
+      # Correct
       {
         "/companies": {
           "$ref": "./paths/companies.json"
@@ -93,13 +118,14 @@ rules:
           "$ref": "./paths/organizations/organizations.json"
         }
       }
-    correct-prism-highlight: "3,6"
+
+      # Correct Prism Highlight
+      3,6
     given:
-      - '$.paths.*.$ref'
-    severity: off
+    - $.paths.*.$ref
+    severity: 'off'
     then:
-      - field: $ref
-        function: pattern
-        functionOptions:
-          match: "^\\.\/paths\/.*\\.json$"
-          
+    - field: $ref
+      function: pattern
+      functionOptions:
+        match: ^\\.\/paths\/.*\\.json$

@@ -1,10 +1,11 @@
----
-description: "Rules related to requests (e.g. headers, params, bodies, security)."
+description: Rules related to requests (e.g. headers, params, bodies, security).
 ---
 rules:
   request-get-has-body:
-    description: GET requests should not specify a `requestBody`.
-    incorrect: |-
+    description: |-
+      GET requests should not specify a `requestBody`.
+
+      # Incorrect
       {
         "/companies": {
           "get": {
@@ -12,21 +13,28 @@ rules:
           }
         }
       }
-    incorrect-prism-highlight: "4"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      4
+
+      # Correct
       {
         "/companies": {
           "get": { ... }
         }
       }
-    correct-prism-highlight: ""
-    severity: off
-    given: '$.paths..get.requestBody'
+
+      # Correct Prism Highlight
+      -
+    severity: 'off'
+    given: $.paths..get.requestBody
     then:
       function: falsy
   request-header-not-ref:
-    description: Request headers must be specified using a `$ref`.
-    incorrect: |-
+    description: |-
+      Request headers must be specified using a `$ref`.
+
+      # Incorrect
       {
         "headers": {
           "X-Custom-Header": {
@@ -37,8 +45,11 @@ rules:
           }
         }
       }
-    incorrect-prism-highlight: "4-7"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      4-7
+
+      # Correct
       {
         "headers": {
           "X-Custom-Header": {
@@ -46,17 +57,21 @@ rules:
           }
         }
       }
-    correct-prism-highlight: "4"
+
+      # Correct Prism Highlight
+      4
     given:
-      - '$..headers.*'
+    - $..headers.*
     resolved: false
-    severity: off
+    severity: 'off'
     then:
-      - field: $ref
-        function: truthy
-  request-header-not-ref-to-comp-dir:  
-    description: Request headers must be specified using a `$ref` to the `../components/headers` directory.
-    incorrect: |-
+    - field: $ref
+      function: truthy
+  request-header-not-ref-to-comp-dir:
+    description: |-
+      Request headers must be specified using a `$ref` to the `../components/headers` directory.
+
+      # Incorrect
       {
         "headers": {
           "X-Custom-Header": {
@@ -64,8 +79,11 @@ rules:
           }
         }
       }
-    incorrect-prism-highlight: "4"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      4
+
+      # Correct
       {
         "headers": {
           "X-Custom-Header": {
@@ -73,32 +91,41 @@ rules:
           }
         }
       }
-    correct-prism-highlight: "4"
+
+      # Correct Prism Highlight
+      4
     given:
-      - '$..headers.*.$ref'
-    severity: off
+    - $..headers.*.$ref
+    severity: 'off'
     then:
-      - field: $ref
-        function: pattern
-        functionOptions:
-          match: "^\\.\\.\/(components\/)?headers\/.*\\.json$"
+    - field: $ref
+      function: pattern
+      functionOptions:
+        match: ^\\.\\.\/(components\/)?headers\/.*\\.json$
   request-missing-header-x-stplus-request-id:
-    description: Paths must include the `X-STPlus-Request-Id` context header.
-    incorrect: |-
+    description: |-
+      Paths must include the `X-STPlus-Request-Id` context header.
+
+      # Incorrect
       {
         "headers": { ... }
       }
-    incorrect-prism-highlight: ""
-    correct: |-
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "headers": {
           "X-STPlus-Request-Id": { ... }
         }
       }
-    correct-prism-highlight: "3"
-    severity: off
+
+      # Correct Prism Highlight
+      3
+    severity: 'off'
     given:
-      - '$.*'    
+    - $.*
     then:
       field: parameters
       function: schema
@@ -115,22 +142,29 @@ rules:
                 type: string
                 pattern: ^header$
   request-missing-header-x-stplus-request-ip:
-    description: Paths must include the `X-STPlus-Request-Ip` context header.    
-    incorrect: |-
+    description: |-
+      Paths must include the `X-STPlus-Request-Ip` context header.
+
+      # Incorrect
       {
         "headers": { ... }
       }
-    incorrect-prism-highlight: ""
-    correct: |-
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "headers": {
           "X-STPlus-Request-Ip": { ... }
         }
       }
-    correct-prism-highlight: "3"        
-    severity: off
+
+      # Correct Prism Highlight
+      3
+    severity: 'off'
     given:
-      - '$.*'
+    - $.*
     then:
       field: parameters
       function: schema
@@ -147,22 +181,29 @@ rules:
                 type: string
                 pattern: ^header$
   request-missing-header-x-stplus-request-user-agent:
-    description: Paths must include the `X-STPlus-Request-User-Agent` context header.
-    incorrect: |-
+    description: |-
+      Paths must include the `X-STPlus-Request-User-Agent` context header.
+
+      # Incorrect
       {
         "headers": { ... }
       }
-    incorrect-prism-highlight: ""
-    correct: |-
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "headers": {
           "X-STPlus-Request-User-Agent": { ... }
         }
       }
-    correct-prism-highlight: "3"
-    severity: off
+
+      # Correct Prism Highlight
+      3
+    severity: 'off'
     given:
-      - '$.*' 
+    - $.*
     then:
       field: parameters
       function: schema
@@ -179,22 +220,29 @@ rules:
                 type: string
                 pattern: ^header$
   request-missing-header-x-stplus-request-timezone:
-    description: Paths must include the `X-STPlus-Request-Timezone` context header.
-    incorrect: |-
+    description: |-
+      Paths must include the `X-STPlus-Request-Timezone` context header.
+
+      # Incorrect
       {
         "headers": { ... }
       }
-    incorrect-prism-highlight: ""
-    correct: |-
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "headers": {
           "X-STPlus-Request-Timezone": { ... }
         }
       }
-    correct-prism-highlight: "3"
-    severity: off
+
+      # Correct Prism Highlight
+      3
+    severity: 'off'
     given:
-      - '$.*' 
+    - $.*
     then:
       field: parameters
       function: schema
@@ -211,22 +259,29 @@ rules:
                 type: string
                 pattern: ^header$
   request-missing-header-x-stplus-request-language:
-    description: Paths must include the `X-STPlus-Request-Language` context header.
-    incorrect: |-
+    description: |-
+      Paths must include the `X-STPlus-Request-Language` context header.
+
+      # Incorrect
       {
         "headers": { ... }
       }
-    incorrect-prism-highlight: ""
-    correct: |-
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "headers": {
           "X-STPlus-Request-Language": { ... }
         }
       }
-    correct-prism-highlight: "3"
-    severity: off
+
+      # Correct Prism Highlight
+      3
+    severity: 'off'
     given:
-      - '$.*'    
+    - $.*
     then:
       field: parameters
       function: schema
@@ -243,23 +298,30 @@ rules:
                 type: string
                 pattern: ^header$
   request-security-missing-type-description:
-    description: Security schemes must have a `type` and `description`.
-    incorrect: |-
+    description: |-
+      Security schemes must have a `type` and `description`.
+
+      # Incorrect
       {
         "scheme": "bearer"
       }
-    incorrect-prism-highlight: ""
-    correct: |-
+
+      # Incorrect Prism Highlight
+      -
+
+      # Correct
       {
         "scheme": "bearer",
         "type": "http",
         "description": "A JWT.",
       }
-    correct-prism-highlight: "3-4"
-    severity: off
-    given: '$.'
+
+      # Correct Prism Highlight
+      3-4
+    severity: 'off'
+    given: $.
     then:
-      - field: type
-        function: truthy
-      - field: description
-        function: truthy        
+    - field: type
+      function: truthy
+    - field: description
+      function: truthy

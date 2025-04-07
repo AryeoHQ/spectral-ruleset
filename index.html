@@ -150,12 +150,22 @@
                     // Split the content into front matter and rules
                     const parts = yamlText.split('---\n');
 
-                    // If we have front matter, it will be in parts[1], and rules in parts[2]
-                    // If no front matter, rules will be in parts[0]
-                    const rulesYaml = parts.length >= 3 ? parts[2] : yamlText;
-                    const yamlData = jsyaml.load(rulesYaml);
+                    // YAML with front matter will have 2 parts:
+                    // parts[0] = front matter content
+                    // parts[1] = rules content
+                    let rulesYaml, frontMatter;
 
-                    const frontMatter = parts.length >= 3 ? parts[1] : '';
+                    if (parts.length >= 2) {
+                        // Has front matter
+                        frontMatter = parts[0];
+                        rulesYaml = parts[1];
+                    } else {
+                        // No front matter
+                        frontMatter = '';
+                        rulesYaml = yamlText;
+                    }
+
+                    const yamlData = jsyaml.load(rulesYaml);
                     displayFrontMatter(frontMatter);
                     displayRules(yamlData.rules);
 
@@ -218,27 +228,36 @@
                 const ruleId = `rule-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
                 ruleDiv.id = ruleId;
 
+                // Parse the description to extract examples and actual description
+                const {
+                    description,
+                    incorrect,
+                    incorrectHighlight,
+                    correct,
+                    correctHighlight
+                } = parseDescription(rule.description || '');
+
                 // Check if either example is missing
-                const missingExample = !rule.incorrect || !rule.correct;
+                const missingExample = !incorrect || !correct;
 
                 ruleDiv.innerHTML = `
                     <div class="rule-title">
                         <a href="#${ruleId}">${title}</a>
                         ${missingExample ? '<span style="color: red; margin-left: 10px;">MISSING EXAMPLES</span>' : ''}
                     </div>
-                    <div class="rule-description">${rule.description || 'No description available.'}</div>
-                    ${(rule.incorrect || rule.correct) ? `
+                    <div class="rule-description">${description || 'No description available.'}</div>
+                    ${(incorrect || correct) ? `
                         <div class="examples-container">
-                            ${rule.incorrect ? `
+                            ${incorrect ? `
                                 <div class="example incorrect">
                                     <div class="example-title">Incorrect</div>
-                                    <pre class="line-numbers" data-line="${rule['incorrect-prism-highlight']}"><code class="language-json">${rule.incorrect}</code></pre>
+                                    <pre class="line-numbers" data-line="${incorrectHighlight === '-' ? '' : incorrectHighlight}"><code class="language-json">${incorrect}</code></pre>
                                 </div>
                             ` : ''}
-                            ${rule.correct ? `
+                            ${correct ? `
                                 <div class="example correct">
                                     <div class="example-title">Correct</div>
-                                    <pre class="line-numbers" data-line="${rule['correct-prism-highlight']}"><code class="language-json">${rule.correct}</code></pre>
+                                    <pre class="line-numbers" data-line="${correctHighlight === '-' ? '' : correctHighlight}"><code class="language-json">${correct}</code></pre>
                                 </div>
                             ` : ''}
                         </div>
@@ -250,6 +269,39 @@
 
             // Highlight all code blocks after they are added to the DOM
             Prism.highlightAll();
+        }
+
+        function parseDescription(description) {
+            // Initialize return object
+            const result = {
+                description: '',
+                incorrect: null,
+                incorrectHighlight: '',
+                correct: null,
+                correctHighlight: ''
+            };
+
+            // Extract the description (everything before the first # Incorrect)
+            const descriptionMatch = description.match(/^(?:|-)\s*([\s\S]*?)(?=\s*#\s*Incorrect|$)/);
+            if (descriptionMatch) {
+                result.description = descriptionMatch[1].trim();
+            }
+
+            // Extract incorrect example, preserving formatting
+            const incorrectMatch = description.match(/#\s*Incorrect\s*\n([\s\S]*?)\n\s*#\s*Incorrect\s*Prism\s*Highlight\s*\n([\s\S]*?)(?=\s*#|$)/);
+            if (incorrectMatch) {
+                result.incorrect = incorrectMatch[1].trim();
+                result.incorrectHighlight = incorrectMatch[2].trim();
+            }
+
+            // Extract correct example, preserving formatting
+            const correctMatch = description.match(/#\s*Correct\s*\n([\s\S]*?)\n\s*#\s*Correct\s*Prism\s*Highlight\s*\n([\s\S]*?)(?=\s*#|$)/);
+            if (correctMatch) {
+                result.correct = correctMatch[1].trim();
+                result.correctHighlight = correctMatch[2].trim();
+            }
+
+            return result;
         }
     </script>
 

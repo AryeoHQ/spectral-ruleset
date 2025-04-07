@@ -1,98 +1,96 @@
----
-description: "Rules related to generic schemas."
+description: Rules related to generic schemas.
 ---
 functions:
-  - refSiblings
+- refSiblings
+
 rules:
   schema-has-examples:
-    description: Schemas should not have examples. Use property example values instead.
-    incorrect: |-      
-      {
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "examples": {
-              "zero": {
-                "value": 0,
-                "summary": "When the limit is 0"
-              }
-            }
-          }
-        ]
-      }
-    incorrect-prism-highlight: "6-11"
-    correct: |-
-      {
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "example": 0
-            }            
-          }
-        ]
-      }      
-    correct-prism-highlight: "6-9"
-    severity: off
-    given: '$..examples'
+    description: "Schemas should not have examples. Use property example values instead.\n\
+      \n# Incorrect\n{\n  \"parameters\": [\n    {\n      \"name\": \"limit\",\n \
+      \     \"in\": \"query\",\n      \"examples\": {\n        \"zero\": {\n     \
+      \     \"value\": 0,\n          \"summary\": \"When the limit is 0\"\n      \
+      \  }\n      }\n    }\n  ]\n}\n\n# Incorrect Prism Highlight\n6-11\n\n# Correct\n\
+      {\n  \"parameters\": [\n    {\n      \"name\": \"limit\",\n      \"in\": \"\
+      query\",\n      \"schema\": {\n        \"type\": \"number\",\n        \"example\"\
+      : 0\n      }            \n    }\n  ]\n}\n\n# Correct Prism Highlight\n6-9"
+    severity: 'off'
+    given: $..examples
     then:
       function: falsy
   schema-has-ref-sibling:
-    description: Properties must not be placed alongside a `$ref`.
-    incorrect: |-
+    description: |-
+      Properties must not be placed alongside a `$ref`.
+
+      # Incorrect
       {
         "portfolio": {
           "$ref": "./CompanyPortfolio.json",
           "description": "A company portfolio object."
         }
       }
-    incorrect-prism-highlight: "4"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      4
+
+      # Correct
       {
         "portfolio": {
           "$ref": "./CompanyPortfolio.json"
         }
       }
-    correct-prism-highlight: ""
+
+      # Correct Prism Highlight
+      -
     resolved: false
-    severity: off
-    given: "$..[?(@property === '$ref')]"
+    severity: 'off'
+    given: $..[?(@property === '$ref')]
     then:
       function: refSiblings
   schema-has-x-external:
-    description: Don't define `x-external` at the top level.
-    incorrect: |-
+    description: |-
+      Don't define `x-external` at the top level.
+
+      # Incorrect
       {
         "title": "ResponseObject",
         "x-external": false
       }
-    incorrect-prism-highlight: "3"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      3
+
+      # Correct
       {
         "title": "ResponseObject"
       }
-    correct-prism-highlight: ""
-    severity: off
-    given: '$["x-external"]'
+
+      # Correct Prism Highlight
+      -
+    severity: 'off'
+    given: $["x-external"]
     then:
-      - function: undefined
+    - function: undefined
   schema-has-x-internal:
-    description: Don't define `x-internal` at the top level.
-    incorrect: |- 
+    description: |-
+      Don't define `x-internal` at the top level.
+
+      # Incorrect
       {
         "title": "ResponseObject",
         "x-internal": true
       }
-    incorrect-prism-highlight: "3"
-    correct: |-
+
+      # Incorrect Prism Highlight
+      3
+
+      # Correct
       {
         "title": "ResponseObject"
       }
-    correct-prism-highlight: ""
-    severity: off
-    given: '$["x-internal"]'
+
+      # Correct Prism Highlight
+      -
+    severity: 'off'
+    given: $["x-internal"]
     then:
-      - function: undefined
+    - function: undefined
