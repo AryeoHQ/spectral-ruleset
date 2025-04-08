@@ -1,0 +1,14 @@
+incorrect: |-
+  {
+    "paths": {
+      "/companies/{COMPANY-ID}": { ... }
+    }
+  }
+incorrect-prism-highlight: '3'
+correct: |-
+  {
+    "paths": {
+      "/companies/{company_id}": { ... }
+    }
+  }
+correct-prism-highlight: '3'

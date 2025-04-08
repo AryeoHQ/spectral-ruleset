@@ -1,0 +1,18 @@
+incorrect: |-
+  {
+    "property_type": {
+      "type": "string",
+      "example": "residential",
+      "enum": ["residential", "commercial", "land", "rental", "multi-family", "business-opportunity", "farm"]
+    }
+  }
+incorrect-prism-highlight: 4-5
+correct: |-
+  {
+    "property_type": {
+      "type": "string",
+      "example": "RESIDENTIAL",
+      "enum": ["RESIDENTIAL", "COMMERCIAL", "LAND", "RENTAL", "MULTI_FAMILY", "BUSINESS_OPPORTUNITY", "FARM"]
+    }
+  }
+correct-prism-highlight: 4-5

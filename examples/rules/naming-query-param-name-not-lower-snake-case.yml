@@ -1,0 +1,20 @@
+incorrect: |-
+  {
+    "parameters": [
+      {
+        "in": "query",
+        "name": "RESOURCE-ID"
+      }
+    ]
+  }
+incorrect-prism-highlight: '5'
+correct: |-
+  {
+    "parameters": [
+      {
+        "in": "query",
+        "name": "resource_id"
+      }
+    ]
+  }
+correct-prism-highlight: '5'

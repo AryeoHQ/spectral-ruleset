@@ -1,0 +1,16 @@
+incorrect: |-
+  {
+    "delete": {
+      "responses": {
+        "201": { ... },
+        "202": { ... }
+    }
+  }
+incorrect-prism-highlight: 4-5
+correct: |-
+  {
+    "delete": {
+      "responses": { ... }
+    }
+  }
+correct-prism-highlight: '-'

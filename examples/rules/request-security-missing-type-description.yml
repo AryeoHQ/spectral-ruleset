@@ -1,0 +1,12 @@
+incorrect: |-
+  {
+    "scheme": "bearer"
+  }
+incorrect-prism-highlight: '-'
+correct: |-
+  {
+    "scheme": "bearer",
+    "type": "http",
+    "description": "A JWT.",
+  }
+correct-prism-highlight: 3-4

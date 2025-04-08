@@ -2,24 +2,7 @@ description: Rules related to paths.
 ---
 rules:
   path-has-nested-action:
-    description: |-
-      Paths cannot have nested actions.
-
-      # Incorrect
-      {
-        "/companies/actions/something/actions/something-else": { ... }
-      }
-
-      # Incorrect Prism Highlight
-      2
-
-      # Correct
-      {
-        "/companies/actions/do-something": { ... }
-      }
-
-      # Correct Prism Highlight
-      2
+    description: Paths cannot have nested actions.
     given:
     - $.paths
     severity: 'off'
@@ -29,25 +12,7 @@ rules:
         notMatch: (\/actions).*(\/actions)
       field: '@key'
   path-has-nested-action-resource:
-    description: |-
-      Paths cannot have resources nested after actions.
-
-      # Incorrect
-      {
-        "/workspace/{workspace_id}/actions/reports/{report_id}": { ... }
-      }
-
-      # Incorrect Prism Highlight
-      2
-
-      # Correct
-      {
-        "/workspace/{workspace_id}/actions/do-something": { ... },
-        "/reports/{report_id}/actions/do-something-else": { ... },
-      }
-
-      # Correct Prism Highlight
-      2-3
+    description: Paths cannot have resources nested after actions.
     given:
     - $.paths
     severity: 'off'
@@ -57,34 +22,7 @@ rules:
         notMatch: (\/{.*})(\/.*)?\/actions(\/.*)?(\/{.*})
       field: '@key'
   path-not-ref:
-    description: |-
-      Paths must be specified using a `$ref`.
-
-      # Incorrect
-      {
-        "/companies": {
-          "get": {
-            "responses": {
-              "200": {
-                "content": { ... }
-              }
-            }
-          }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      3-9
-
-      # Correct
-      {
-        "/companies": {
-          "$ref": "./paths/companies.json"
-        }
-      }
-
-      # Correct Prism Highlight
-      3
+    description: Paths must be specified using a `$ref`.
     given:
     - $.paths.*
     resolved: false
@@ -93,34 +31,7 @@ rules:
     - field: $ref
       function: truthy
   path-not-ref-to-path-dir:
-    description: |-
-      Paths must be specified using a `$ref` to the `./paths` directory.
-
-      # Incorrect
-      {
-        "/companies": {
-          "$ref": "./random-path/paths/companies.json"
-        },
-        "/organizations": {
-          "$ref": "./another-path/companies.json"
-        }
-      }
-
-      # Incorrect Prism Highlight
-      3,6
-
-      # Correct
-      {
-        "/companies": {
-          "$ref": "./paths/companies.json"
-        },
-        "/organizations": {
-          "$ref": "./paths/organizations/organizations.json"
-        }
-      }
-
-      # Correct Prism Highlight
-      3,6
+    description: Paths must be specified using a `$ref` to the `./paths` directory.
     given:
     - $.paths.*.$ref
     severity: 'off'

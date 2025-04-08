@@ -1,0 +1,15 @@
+incorrect: |-
+  {
+    "portfolio": {
+      "$ref": "./CompanyPortfolio.json",
+      "description": "A company portfolio object."
+    }
+  }
+incorrect-prism-highlight: '4'
+correct: |-
+  {
+    "portfolio": {
+      "$ref": "./CompanyPortfolio.json"
+    }
+  }
+correct-prism-highlight: '-'

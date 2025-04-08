@@ -1,0 +1,16 @@
+incorrect: |-
+  {
+    "put": {
+      "responses": {
+        "201": { ... }
+      }
+    }
+  }
+incorrect-prism-highlight: '4'
+correct: |-
+  {
+    "put": {
+      "responses": { ... }
+    }
+  }
+correct-prism-highlight: '-'

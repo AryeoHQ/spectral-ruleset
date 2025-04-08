@@ -1,0 +1,15 @@
+incorrect: |-
+  {
+    "get": {
+      "responses": { ... }
+    }
+  }
+incorrect-prism-highlight: '-'
+correct: |-
+  {
+    "get": {
+      "responses": { ... },
+      "x-internal": true
+    }
+  }
+correct-prism-highlight: '4'

@@ -1,0 +1,11 @@
+incorrect: |-
+  {
+    "type": "array"
+  }
+incorrect-prism-highlight: '-'
+correct: |-
+  {
+    "type": "array",
+    "items": { ... }
+  }
+correct-prism-highlight: '3'

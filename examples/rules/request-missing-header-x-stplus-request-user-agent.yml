@@ -1,0 +1,12 @@
+incorrect: |-
+  {
+    "headers": { ... }
+  }
+incorrect-prism-highlight: '-'
+correct: |-
+  {
+    "headers": {
+      "X-STPlus-Request-User-Agent": { ... }
+    }
+  }
+correct-prism-highlight: '3'

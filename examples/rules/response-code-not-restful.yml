@@ -1,0 +1,18 @@
+incorrect: |-
+  {
+    "get": {
+      "responses": {
+        "226": { ... }
+      }
+    }
+  }
+incorrect-prism-highlight: '4'
+correct: |-
+  {
+    "get": {
+      "responses": {
+        "200": { ... }
+      }
+    }
+  }
+correct-prism-highlight: '4'

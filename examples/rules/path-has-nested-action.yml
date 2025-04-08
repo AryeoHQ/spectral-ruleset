@@ -1,0 +1,10 @@
+incorrect: |-
+  {
+    "/companies/actions/something/actions/something-else": { ... }
+  }
+incorrect-prism-highlight: '2'
+correct: |-
+  {
+    "/companies/actions/do-something": { ... }
+  }
+correct-prism-highlight: '2'

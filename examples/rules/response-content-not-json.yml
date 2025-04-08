@@ -1,0 +1,30 @@
+incorrect: |-
+  {
+    "/companies": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/xml": { ... }
+            }
+          }
+        }
+      }
+    }
+  }
+incorrect-prism-highlight: '7'
+correct: |-
+  {
+    "/companies": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": { ... }
+            }
+          }
+        }
+      }
+    }
+  }
+correct-prism-highlight: '7'

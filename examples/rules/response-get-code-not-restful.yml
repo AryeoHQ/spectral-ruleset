@@ -1,0 +1,19 @@
+incorrect: |-
+  {
+    "get": {
+      "responses": {
+        "201": { ... },
+        "202": { ... },
+        "204": { ... },
+        "409": { ... }
+      }
+    }
+  }
+incorrect-prism-highlight: 4-7
+correct: |-
+  {
+    "get": {
+      "responses": { ... }
+    }
+  }
+correct-prism-highlight: '-'

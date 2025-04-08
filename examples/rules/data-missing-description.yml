@@ -1,0 +1,16 @@
+incorrect: |-
+  {
+    "properties": {
+      "first_name": { ... }
+    }
+  }
+incorrect-prism-highlight: '-'
+correct: |-
+  {
+    "properties": {
+      "first_name": {
+        "description": "A user's first name"
+      }
+    }
+  }
+correct-prism-highlight: '4'

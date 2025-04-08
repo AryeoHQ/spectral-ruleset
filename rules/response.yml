@@ -2,28 +2,7 @@ description: Rules related to responses (e.g. headers, responses).
 ---
 rules:
   response-action-not-post:
-    description: |-
-      Action paths can only specify `POST` methods.
-
-      # Incorrect
-      {
-        "/companies/action": {
-          "get": { ... }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      3
-
-      # Correct
-      {
-        "/companies/action": {
-          "post": { ... }
-        }
-      }
-
-      # Correct Prism Highlight
-      3
+    description: Action paths can only specify `POST` methods.
     severity: 'off'
     given:
     - $.*~
@@ -33,32 +12,7 @@ rules:
         values:
         - post
   response-code-not-restful:
-    description: |-
-      Response code must be in set (200,201,202,204,400,401,403,404,405,406,409,415,422,429,500,503).
-
-      # Incorrect
-      {
-        "get": {
-          "responses": {
-            "226": { ... }
-          }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      4
-
-      # Correct
-      {
-        "get": {
-          "responses": {
-            "200": { ... }
-          }
-        }
-      }
-
-      # Correct Prism Highlight
-      4
+    description: Response code must be in set (200,201,202,204,400,401,403,404,405,406,409,415,422,429,500,503).
     severity: 'off'
     given:
     - $..paths.*[?( @property != 'parameters' )].responses.*~
@@ -84,74 +38,14 @@ rules:
         - 500
         - 503
   response-content-not-json:
-    description: |-
-      All content must be specified as `application/json`.
-
-      # Incorrect
-      {
-        "/companies": {
-          "get": {
-            "responses": {
-              "200": {
-                "content": {
-                  "application/xml": { ... }
-                }
-              }
-            }
-          }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      7
-
-      # Correct
-      {
-        "/companies": {
-          "get": {
-            "responses": {
-              "200": {
-                "content": {
-                  "application/json": { ... }
-                }
-              }
-            }
-          }
-        }
-      }
-
-      # Correct Prism Highlight
-      7
+    description: All content must be specified as `application/json`.
     severity: 'off'
     given: $..content
     then:
     - field: application/json
       function: truthy
   response-delete-code-not-restful:
-    description: |-
-      DELETE requests should not define `201` or `202` responses.
-
-      # Incorrect
-      {
-        "delete": {
-          "responses": {
-            "201": { ... },
-            "202": { ... }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      4-5
-
-      # Correct
-      {
-        "delete": {
-          "responses": { ... }
-        }
-      }
-
-      # Correct Prism Highlight
-      -
+    description: DELETE requests should not define `201` or `202` responses.
     severity: 'off'
     given:
     - $.[?( @property == 'delete' )].responses.*~
@@ -160,33 +54,7 @@ rules:
       functionOptions:
         notMatch: (201|202)
   response-get-code-not-restful:
-    description: |-
-      GET requests should not define `201`, `202`, `204`, or `409` responses.
-
-      # Incorrect
-      {
-        "get": {
-          "responses": {
-            "201": { ... },
-            "202": { ... },
-            "204": { ... },
-            "409": { ... }
-          }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      4-7
-
-      # Correct
-      {
-        "get": {
-          "responses": { ... }
-        }
-      }
-
-      # Correct Prism Highlight
-      -
+    description: GET requests should not define `201`, `202`, `204`, or `409` responses.
     severity: 'off'
     given:
     - $..paths.*[?( @property == 'get' )].responses.*~
@@ -196,33 +64,7 @@ rules:
       functionOptions:
         notMatch: (201|202|204|409)
   response-get-missing-200:
-    description: |-
-      GET requests must define a `200` response.
-
-      # Incorrect
-      {
-        "get": {
-          "responses": {
-            "404": { ... }
-          }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      -
-
-      # Correct
-      {
-        "get": {
-          "responses": {
-            "200": { ... },
-            "404": { ... }
-          }
-        }
-      }
-
-      # Correct Prism Highlight
-      4
+    description: GET requests must define a `200` response.
     severity: 'off'
     given:
     - $.[?( @property == 'get' )].responses
@@ -231,35 +73,7 @@ rules:
     - field: 200
       function: truthy
   response-get-missing-restful-code:
-    description: |-
-      GET requests must define a `404`, `422`, and `500` response.
-
-      # Incorrect
-      {
-        "get": {
-          "responses": {
-            "200": { ... }
-          }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      -
-
-      # Correct
-      {
-        "get": {
-          "responses": {
-            "200": { ... },
-            "404": { ... },
-            "422": { ... },
-            "500": { ... }
-          }
-        }
-      }
-
-      # Correct Prism Highlight
-      5-7
+    description: GET requests must define a `404`, `422`, and `500` response.
     severity: 'off'
     given:
     - $..paths.*[?( @property == 'get' )].responses
@@ -271,29 +85,7 @@ rules:
     - field: 500
       function: truthy
   response-method-missing-x-external:
-    description: |-
-      Response methods should define `x-external` as either true or false.
-
-      # Incorrect
-      {
-        "get": {
-          "responses": { ... }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      -
-
-      # Correct
-      {
-        "get": {
-          "responses": { ... },
-          "x-external": false
-        }
-      }
-
-      # Correct Prism Highlight
-      4
+    description: Response methods should define `x-external` as either true or false.
     severity: 'off'
     given:
     - $.*
@@ -307,29 +99,7 @@ rules:
         - true
         - false
   response-method-missing-x-internal:
-    description: |-
-      Response methods should define `x-internal` as either true or false.
-
-      # Incorrect
-      {
-        "get": {
-          "responses": { ... }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      -
-
-      # Correct
-      {
-        "get": {
-          "responses": { ... },
-          "x-internal": true
-        }
-      }
-
-      # Correct Prism Highlight
-      4
+    description: Response methods should define `x-internal` as either true or false.
     severity: 'off'
     given:
     - $.*
@@ -343,34 +113,7 @@ rules:
         - true
         - false
   response-missing-restful-code:
-    description: |-
-      Requests must define a `422` and `500` response.
-
-      # Incorrect
-      {
-        "post": {
-          "responses": {
-            "200": { ... }
-          }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      -
-
-      # Correct
-      {
-        "post": {
-          "responses": {
-            "201": { ... },
-            "422": { ... },
-            "500": { ... }
-          }
-        }
-      }
-
-      # Correct Prism Highlight
-      5-6
+    description: Requests must define a `422` and `500` response.
     severity: 'off'
     given:
     - $..paths.*[?( @property == 'post' )].responses
@@ -383,24 +126,7 @@ rules:
     - field: 500
       function: truthy
   response-not-restful:
-    description: |-
-      Response methods can only be `GET`, `POST`, `PUT`, `PATCH`, or `DELETE`.
-
-      # Incorrect
-      {
-        "trace": { ... }
-      }
-
-      # Incorrect Prism Highlight
-      2
-
-      # Correct
-      {
-        "get": { ... }
-      }
-
-      # Correct Prism Highlight
-      2
+    description: Response methods can only be `GET`, `POST`, `PUT`, `PATCH`, or `DELETE`.
     severity: 'off'
     given: $..paths.*[?( @property != 'parameters' )]~
     then:
@@ -413,30 +139,7 @@ rules:
         - patch
         - delete
   response-patch-code-not-restful:
-    description: |-
-      PATCH requests should not define `201` or `202` responses.
-
-      # Incorrect
-      {
-        "patch": {
-          "responses": {
-            "201": { ... },
-            "202": { ... }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      4-5
-
-      # Correct
-      {
-        "patch": {
-          "responses": { ... }
-        }
-      }
-
-      # Correct Prism Highlight
-      -
+    description: PATCH requests should not define `201` or `202` responses.
     severity: 'off'
     given:
     - $.[?( @property == 'patch' )].responses.*~
@@ -445,30 +148,7 @@ rules:
       functionOptions:
         notMatch: (201|202)
   response-post-code-not-restful:
-    description: |-
-      POST requests should not define `204` responses.
-
-      # Incorrect
-      {
-        "post": {
-          "responses": {
-            "204": { ... }
-          }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      4
-
-      # Correct
-      {
-        "post": {
-          "responses": { ... }
-        }
-      }
-
-      # Correct Prism Highlight
-      -
+    description: POST requests should not define `204` responses.
     severity: 'off'
     given: $.[?( @property == 'post' )].responses.*~
     then:
@@ -476,33 +156,7 @@ rules:
       functionOptions:
         notMatch: 204
   response-post-missing-201:
-    description: |-
-      POST requests must define a `201` response.
-
-      # Incorrect
-      {
-        "post": {
-          "responses": {
-            "422": { ... }
-          }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      -
-
-      # Correct
-      {
-        "post": {
-          "responses": {
-            "201": { ... },
-            "422": { ... }
-          }
-        }
-      }
-
-      # Correct Prism Highlight
-      4
+    description: POST requests must define a `201` response.
     severity: 'off'
     given:
     - $.[?( @property == 'post' )].responses
@@ -510,30 +164,7 @@ rules:
     - field: 201
       function: truthy
   response-put-code-not-restful:
-    description: |-
-      PUT requests should not define `201` responses.
-
-      # Incorrect
-      {
-        "put": {
-          "responses": {
-            "201": { ... }
-          }
-        }
-      }
-
-      # Incorrect Prism Highlight
-      4
-
-      # Correct
-      {
-        "put": {
-          "responses": { ... }
-        }
-      }
-
-      # Correct Prism Highlight
-      -
+    description: PUT requests should not define `201` responses.
     severity: 'off'
     given: $.[?( @property == 'put' )].responses.*~
     then:

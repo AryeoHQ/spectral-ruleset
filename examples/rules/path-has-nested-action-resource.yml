@@ -1,0 +1,11 @@
+incorrect: |-
+  {
+    "/workspace/{workspace_id}/actions/reports/{report_id}": { ... }
+  }
+incorrect-prism-highlight: '2'
+correct: |-
+  {
+    "/workspace/{workspace_id}/actions/do-something": { ... },
+    "/reports/{report_id}/actions/do-something-else": { ... },
+  }
+correct-prism-highlight: 2-3

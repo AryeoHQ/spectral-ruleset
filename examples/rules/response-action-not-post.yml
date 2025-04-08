@@ -1,0 +1,14 @@
+incorrect: |-
+  {
+    "/companies/action": {
+      "get": { ... }
+    }
+  }
+incorrect-prism-highlight: '3'
+correct: |-
+  {
+    "/companies/action": {
+      "post": { ... }
+    }
+  }
+correct-prism-highlight: '3'

@@ -1,0 +1,16 @@
+incorrect: |-
+  {
+    "post": {
+      "responses": {
+        "204": { ... }
+      }
+    }
+  }
+incorrect-prism-highlight: '4'
+correct: |-
+  {
+    "post": {
+      "responses": { ... }
+    }
+  }
+correct-prism-highlight: '-'

@@ -1,0 +1,19 @@
+incorrect: |-
+  {
+    "post": {
+      "responses": {
+        "422": { ... }
+      }
+    }
+  }
+incorrect-prism-highlight: '-'
+correct: |-
+  {
+    "post": {
+      "responses": {
+        "201": { ... },
+        "422": { ... }
+      }
+    }
+  }
+correct-prism-highlight: '4'

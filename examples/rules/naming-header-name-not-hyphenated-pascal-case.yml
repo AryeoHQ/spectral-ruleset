@@ -1,0 +1,26 @@
+incorrect: |-
+  {
+    "get": {
+      "responses": {
+        "200": {
+          "headers": {
+            "X_STPlus_Request_Id": { ... }
+          }
+        }
+      }
+    }
+  }
+incorrect-prism-highlight: '6'
+correct: |-
+  {
+    "get": {
+      "responses": {
+        "200": {
+          "headers": {
+            "X-STPlus-Request-Id": { ... }
+          }
+        }
+      }
+    }
+  }
+correct-prism-highlight: '6'

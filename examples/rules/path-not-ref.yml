@@ -1,0 +1,20 @@
+incorrect: |-
+  {
+    "/companies": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": { ... }
+          }
+        }
+      }
+    }
+  }
+incorrect-prism-highlight: 3-9
+correct: |-
+  {
+    "/companies": {
+      "$ref": "./paths/companies.json"
+    }
+  }
+correct-prism-highlight: '3'

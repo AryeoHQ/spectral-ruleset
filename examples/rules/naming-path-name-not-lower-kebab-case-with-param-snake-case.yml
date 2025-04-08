@@ -1,0 +1,6 @@
+incorrect: "{\n  \"paths\": {      \n    \"/usCompanies/{COMPANY-ID}\": { ... }\n\
+  \  }\n}"
+incorrect-prism-highlight: '3'
+correct: "{\n  \"paths\": {      \n    \"/us-companies/{company_id}\": { ... }\n \
+  \ }\n}"
+correct-prism-highlight: '3'

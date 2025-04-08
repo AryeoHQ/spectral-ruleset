@@ -1,0 +1,12 @@
+incorrect: |-
+  {
+    "headers": { ... }
+  }
+incorrect-prism-highlight: '-'
+correct: |-
+  {
+    "headers": {
+      "X-STPlus-Request-Timezone": { ... }
+    }
+  }
+correct-prism-highlight: '3'

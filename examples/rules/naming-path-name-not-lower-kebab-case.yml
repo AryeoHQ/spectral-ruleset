@@ -1,0 +1,14 @@
+incorrect: |-
+  {
+    "paths": {
+      "/Company-Details": { ... }
+    }
+  }
+incorrect-prism-highlight: '3'
+correct: |-
+  {
+    "paths": {
+      "/company-details": { ... }
+    }
+  }
+correct-prism-highlight: '3'

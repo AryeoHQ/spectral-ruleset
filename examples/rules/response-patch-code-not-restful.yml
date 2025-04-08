@@ -1,0 +1,16 @@
+incorrect: |-
+  {
+    "patch": {
+      "responses": {
+        "201": { ... },
+        "202": { ... }
+    }
+  }
+incorrect-prism-highlight: 4-5
+correct: |-
+  {
+    "patch": {
+      "responses": { ... }
+    }
+  }
+correct-prism-highlight: '-'

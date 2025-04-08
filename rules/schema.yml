@@ -2,94 +2,28 @@ description: Rules related to generic schemas.
 ---
 functions:
 - refSiblings
-
 rules:
   schema-has-examples:
-    description: "Schemas should not have examples. Use property example values instead.\n\
-      \n# Incorrect\n{\n  \"parameters\": [\n    {\n      \"name\": \"limit\",\n \
-      \     \"in\": \"query\",\n      \"examples\": {\n        \"zero\": {\n     \
-      \     \"value\": 0,\n          \"summary\": \"When the limit is 0\"\n      \
-      \  }\n      }\n    }\n  ]\n}\n\n# Incorrect Prism Highlight\n6-11\n\n# Correct\n\
-      {\n  \"parameters\": [\n    {\n      \"name\": \"limit\",\n      \"in\": \"\
-      query\",\n      \"schema\": {\n        \"type\": \"number\",\n        \"example\"\
-      : 0\n      }            \n    }\n  ]\n}\n\n# Correct Prism Highlight\n6-9"
+    description: Schemas should not have examples. Use property example values instead.
     severity: 'off'
     given: $..examples
     then:
       function: falsy
   schema-has-ref-sibling:
-    description: |-
-      Properties must not be placed alongside a `$ref`.
-
-      # Incorrect
-      {
-        "portfolio": {
-          "$ref": "./CompanyPortfolio.json",
-          "description": "A company portfolio object."
-        }
-      }
-
-      # Incorrect Prism Highlight
-      4
-
-      # Correct
-      {
-        "portfolio": {
-          "$ref": "./CompanyPortfolio.json"
-        }
-      }
-
-      # Correct Prism Highlight
-      -
+    description: Properties must not be placed alongside a `$ref`.
     resolved: false
     severity: 'off'
     given: $..[?(@property === '$ref')]
     then:
       function: refSiblings
   schema-has-x-external:
-    description: |-
-      Don't define `x-external` at the top level.
-
-      # Incorrect
-      {
-        "title": "ResponseObject",
-        "x-external": false
-      }
-
-      # Incorrect Prism Highlight
-      3
-
-      # Correct
-      {
-        "title": "ResponseObject"
-      }
-
-      # Correct Prism Highlight
-      -
+    description: Don't define `x-external` at the top level.
     severity: 'off'
     given: $["x-external"]
     then:
     - function: undefined
   schema-has-x-internal:
-    description: |-
-      Don't define `x-internal` at the top level.
-
-      # Incorrect
-      {
-        "title": "ResponseObject",
-        "x-internal": true
-      }
-
-      # Incorrect Prism Highlight
-      3
-
-      # Correct
-      {
-        "title": "ResponseObject"
-      }
-
-      # Correct Prism Highlight
-      -
+    description: Don't define `x-internal` at the top level.
     severity: 'off'
     given: $["x-internal"]
     then:

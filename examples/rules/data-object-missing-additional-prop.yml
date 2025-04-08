@@ -1,0 +1,15 @@
+incorrect: |-
+  {
+    "title": "Model",
+    "type": "object",
+    "properties": { ... }
+  }
+incorrect-prism-highlight: '-'
+correct: |-
+  {
+    "title": "Model",
+    "type": "object",
+    "properties": { ... },
+    "additionalProperties": false
+  }
+correct-prism-highlight: '5'

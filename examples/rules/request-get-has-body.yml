@@ -1,0 +1,16 @@
+incorrect: |-
+  {
+    "/companies": {
+      "get": {
+        "requestBody": { ... }
+      }
+    }
+  }
+incorrect-prism-highlight: '4'
+correct: |-
+  {
+    "/companies": {
+      "get": { ... }
+    }
+  }
+correct-prism-highlight: '-'

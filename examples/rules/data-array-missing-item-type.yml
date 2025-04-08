@@ -1,0 +1,14 @@
+incorrect: |-
+  {
+    "type": "array",
+    "items": { ... }
+  }
+incorrect-prism-highlight: '-'
+correct: |-
+  {
+    "type": "array",
+    "items": {
+      "$ref": "./Model.json"
+    }
+  }
+correct-prism-highlight: 3-5

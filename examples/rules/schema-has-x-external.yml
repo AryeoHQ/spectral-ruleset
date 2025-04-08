@@ -1,0 +1,11 @@
+incorrect: |-
+  {
+    "title": "ResponseObject",
+    "x-external": false
+  }
+incorrect-prism-highlight: '3'
+correct: |-
+  {
+    "title": "ResponseObject"
+  }
+correct-prism-highlight: '-'

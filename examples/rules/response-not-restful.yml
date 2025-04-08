@@ -1,0 +1,10 @@
+incorrect: |-
+  {
+    "trace": { ... }
+  }
+incorrect-prism-highlight: '2'
+correct: |-
+  {
+    "get": { ... }
+  }
+correct-prism-highlight: '2'

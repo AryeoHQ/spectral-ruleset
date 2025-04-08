@@ -1,0 +1,20 @@
+incorrect: |-
+  {
+    "parameters": [
+      {
+        "name": "limit",
+        "in": "query",
+        "examples": {
+          "zero": {
+            "value": 0,
+            "summary": "When the limit is 0"
+          }
+        }
+      }
+    ]
+  }
+incorrect-prism-highlight: 6-11
+correct: "{\n  \"parameters\": [\n    {\n      \"name\": \"limit\",\n      \"in\"\
+  : \"query\",\n      \"schema\": {\n        \"type\": \"number\",\n        \"example\"\
+  : 0\n      }            \n    }\n  ]\n}"
+correct-prism-highlight: 6-9

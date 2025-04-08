@@ -270,7 +270,7 @@
             content.appendChild(frontMatterDiv);
         }
 
-        function displayRules(rules) {
+        async function displayRules(rules) {
             if (!rules) {
                 content.innerHTML += '<div>No rules found in the selected file.</div>';
                 return;
@@ -282,40 +282,56 @@
                 const ruleId = `rule-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
                 ruleDiv.id = ruleId;
 
-                // Parse the description to extract examples and actual description
-                const {
-                    description,
-                    incorrect,
-                    incorrectHighlight,
-                    correct,
-                    correctHighlight
-                } = parseDescription(rule.description || '');
+                // Instead of parsing the description, load examples from examples/rules
+                const description = rule.description || 'No description available.';
 
-                // Check if either example is missing
-                const missingExample = !incorrect || !correct;
+                // Example file path based on rule name
+                const exampleFilePath = `./examples/rules/${title}.yml`;
+
+                // Initialize example data
+                let exampleData = {
+                    incorrect: null,
+                    incorrectHighlight: '',
+                    correct: null,
+                    correctHighlight: ''
+                };
+
+                // Try to load the example file
+                try {
+                    const exampleResponse = await fetch(exampleFilePath);
+                    if (exampleResponse.ok) {
+                        const exampleYaml = await exampleResponse.text();
+                        const example = jsyaml.load(exampleYaml);
+
+                        // Extract data from example file
+                        exampleData.incorrect = example.incorrect || null;
+                        exampleData.incorrectHighlight = example['incorrect-prism-highlight'] || '';
+                        exampleData.correct = example.correct || null;
+                        exampleData.correctHighlight = example['correct-prism-highlight'] || '';
+                    }
+                } catch (error) {
+                    console.warn(`Could not load example for rule ${title}:`, error);
+                }
 
                 ruleDiv.innerHTML = `
                     <div class="rule-title">
                         <a href="#${ruleId}">${title}</a>
-                        ${missingExample ? '<span style="color: red; margin-left: 10px;">MISSING EXAMPLES</span>' : ''}
                     </div>
-                    <div class="rule-description">${description || 'No description available.'}</div>
-                    ${(incorrect || correct) ? `
-                        <div class="examples-container">
-                            ${incorrect ? `
-                                <div class="example incorrect">
-                                    <div class="example-title">Incorrect</div>
-                                    <pre class="line-numbers" data-line="${incorrectHighlight === '-' ? '' : incorrectHighlight}"><code class="language-json">${incorrect}</code></pre>
-                                </div>
-                            ` : ''}
-                            ${correct ? `
-                                <div class="example correct">
-                                    <div class="example-title">Correct</div>
-                                    <pre class="line-numbers" data-line="${correctHighlight === '-' ? '' : correctHighlight}"><code class="language-json">${correct}</code></pre>
-                                </div>
-                            ` : ''}
-                        </div>
-                    ` : ''}
+                    <div class="rule-description">${description}</div>
+                    <div class="examples-container">
+                        ${exampleData.incorrect ? `
+                            <div class="example incorrect">
+                                <div class="example-title">Incorrect</div>
+                                <pre class="line-numbers" data-line="${exampleData.incorrectHighlight === '-' ? '' : exampleData.incorrectHighlight}"><code class="language-json">${exampleData.incorrect}</code></pre>
+                            </div>
+                        ` : ''}
+                        ${exampleData.correct ? `
+                            <div class="example correct">
+                                <div class="example-title">Correct</div>
+                                <pre class="line-numbers" data-line="${exampleData.correctHighlight === '-' ? '' : exampleData.correctHighlight}"><code class="language-json">${exampleData.correct}</code></pre>
+                            </div>
+                        ` : ''}
+                    </div>
                 `;
 
                 content.appendChild(ruleDiv);
@@ -323,39 +339,6 @@
 
             // Highlight all code blocks after they are added to the DOM
             Prism.highlightAll();
-        }
-
-        function parseDescription(description) {
-            // Initialize return object
-            const result = {
-                description: '',
-                incorrect: null,
-                incorrectHighlight: '',
-                correct: null,
-                correctHighlight: ''
-            };
-
-            // Extract the description (everything before the first # Incorrect)
-            const descriptionMatch = description.match(/^(?:|-)\s*([\s\S]*?)(?=\s*#\s*Incorrect|$)/);
-            if (descriptionMatch) {
-                result.description = descriptionMatch[1].trim();
-            }
-
-            // Extract incorrect example, preserving formatting
-            const incorrectMatch = description.match(/#\s*Incorrect\s*\n([\s\S]*?)\n\s*#\s*Incorrect\s*Prism\s*Highlight\s*\n([\s\S]*?)(?=\s*#|$)/);
-            if (incorrectMatch) {
-                result.incorrect = incorrectMatch[1].trim();
-                result.incorrectHighlight = incorrectMatch[2].trim();
-            }
-
-            // Extract correct example, preserving formatting
-            const correctMatch = description.match(/#\s*Correct\s*\n([\s\S]*?)\n\s*#\s*Correct\s*Prism\s*Highlight\s*\n([\s\S]*?)(?=\s*#|$)/);
-            if (correctMatch) {
-                result.correct = correctMatch[1].trim();
-                result.correctHighlight = correctMatch[2].trim();
-            }
-
-            return result;
         }
     </script>
 

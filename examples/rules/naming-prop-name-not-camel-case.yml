@@ -1,0 +1,14 @@
+incorrect: |-
+  {
+    "properties": {
+      "RESOURCE-ID": { ... }
+    }
+  }
+incorrect-prism-highlight: '3'
+correct: |-
+  {
+    "properties": {
+      "resourceId": { ... }
+    }
+  }
+correct-prism-highlight: '3'

@@ -1,0 +1,20 @@
+incorrect: |-
+  {
+    "/companies": {
+      "$ref": "./random-path/paths/companies.json"
+    },
+    "/organizations": {
+      "$ref": "./another-path/companies.json"
+    }
+  }
+incorrect-prism-highlight: 3,6
+correct: |-
+  {
+    "/companies": {
+      "$ref": "./paths/companies.json"
+    },
+    "/organizations": {
+      "$ref": "./paths/organizations/organizations.json"
+    }
+  }
+correct-prism-highlight: 3,6

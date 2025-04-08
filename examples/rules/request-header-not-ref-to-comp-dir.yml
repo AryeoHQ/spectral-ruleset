@@ -1,0 +1,18 @@
+incorrect: |-
+  {
+    "headers": {
+      "X-Custom-Header": {
+        "$ref": "../some-path/headers/x-custom-header.json"
+      }
+    }
+  }
+incorrect-prism-highlight: '4'
+correct: |-
+  {
+    "headers": {
+      "X-Custom-Header": {
+        "$ref": "../components/headers/x-custom-header.json"
+      }
+    }
+  }
+correct-prism-highlight: '4'

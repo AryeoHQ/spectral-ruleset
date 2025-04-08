@@ -1,0 +1,26 @@
+incorrect: |-
+  {
+    "properties": {
+      "street_number": {
+        "type": "integer"
+      },
+      "first_name": {
+        "type": "string"
+      }
+    }
+  }
+incorrect-prism-highlight: '-'
+correct: |-
+  {
+    "properties": {
+      "street_number": {
+        "type": "integer",
+        "example": 108
+      },
+      "first_name": {
+        "type": "string",
+        "example": "Jarrod"
+      }
+    }
+  }
+correct-prism-highlight: 5,9

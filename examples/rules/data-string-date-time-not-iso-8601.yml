@@ -1,0 +1,22 @@
+incorrect: |-
+  {
+    "properties": {
+      "start_time": {
+        "type": "string"
+      }
+    }
+  }
+incorrect-prism-highlight: '-'
+correct: |-
+  {
+    "properties": {
+      "start_time": {
+        "type": "string",
+        "format": "date-time",
+        "example": "2023-01-01T00:00:00.000Z",
+        "minLength": 24,
+        "maxLength": 24
+      }
+    }
+  }
+correct-prism-highlight: 5-8

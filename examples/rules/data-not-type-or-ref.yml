@@ -1,0 +1,25 @@
+incorrect: |-
+  {
+    "properties": {
+      "user": {
+        "oneOf": [
+          {
+            "$ref": "./Admin.json"
+          },
+          {
+            "$ref": "./User.json"
+          }
+        ]
+      }
+    }
+  }
+incorrect-prism-highlight: 4-11
+correct: |-
+  {
+    "properties": {
+      "user": {
+        "$ref": "./User.json"
+      }
+    }
+  }
+correct-prism-highlight: '4'

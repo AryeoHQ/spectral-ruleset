@@ -1,0 +1,13 @@
+incorrect: |-
+  {
+    "properties": {
+      "created_at": {
+        "type": "string",
+        "format": "datetime"
+      }
+    }
+  }
+incorrect-prism-highlight: '5'
+correct: "{\n  \"properties\": {\n    \"created_at\": {\n      \"type\": \"string\"\
+  ,          \n      \"format\": \"date-time\"\n    }\n  }\n}"
+correct-prism-highlight: '5'
