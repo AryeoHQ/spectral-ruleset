@@ -267,26 +267,13 @@
                 const response = await fetch(`${filePath}?_=${cacheBuster}`);
                 const yamlText = await response.text();
 
-                // Split the content into front matter and rules
-                const parts = yamlText.split('---\n');
+                // Parse YAML directly - no need to handle front matter
+                const yamlData = jsyaml.load(yamlText);
 
-                // YAML with front matter will have 2 parts:
-                // parts[0] = front matter content
-                // parts[1] = rules content
-                let rulesYaml, frontMatter;
+                // Clear existing content
+                content.innerHTML = '';
 
-                if (parts.length >= 2) {
-                    // Has front matter
-                    frontMatter = parts[0];
-                    rulesYaml = parts[1];
-                } else {
-                    // No front matter
-                    frontMatter = '';
-                    rulesYaml = yamlText;
-                }
-
-                const yamlData = jsyaml.load(rulesYaml);
-                displayFrontMatter(frontMatter);
+                // Display rules
                 await displayRules(yamlData.rules);
 
                 // If a specific rule ID was provided, scroll to it

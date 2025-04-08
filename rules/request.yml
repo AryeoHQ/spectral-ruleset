@@ -1,5 +1,5 @@
 description: Rules related to requests (e.g. headers, params, bodies, security).
----
+documentationUrl: https://aryeohq.github.io
 rules:
   request-get-has-body:
     category:
@@ -9,6 +9,7 @@ rules:
     description: GET requests should not specify a `requestBody`.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-get-has-body
+    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#request-get-has-body
     given: $.paths..get.requestBody
     then:
       function: falsy
@@ -23,6 +24,7 @@ rules:
     resolved: false
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-header-not-ref
+    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#request-header-not-ref
     then:
     - field: $ref
       function: truthy
@@ -37,6 +39,7 @@ rules:
     - $..headers.*.$ref
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-header-not-ref-to-comp-dir
+    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#request-header-not-ref-to-comp-dir
     then:
     - field: $ref
       function: pattern
@@ -50,6 +53,7 @@ rules:
     description: Paths must include the `X-STPlus-Request-Id` context header.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-id
+    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-id
     given:
     - $.*
     then:
@@ -75,6 +79,7 @@ rules:
     description: Paths must include the `X-STPlus-Request-Ip` context header.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-ip
+    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-ip
     given:
     - $.*
     then:
@@ -100,6 +105,7 @@ rules:
     description: Paths must include the `X-STPlus-Request-User-Agent` context header.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-user-agent
+    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-user-agent
     given:
     - $.*
     then:
@@ -125,6 +131,7 @@ rules:
     description: Paths must include the `X-STPlus-Request-Timezone` context header.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-timezone
+    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-timezone
     given:
     - $.*
     then:
@@ -150,6 +157,7 @@ rules:
     description: Paths must include the `X-STPlus-Request-Language` context header.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-language
+    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-language
     given:
     - $.*
     then:
@@ -175,6 +183,7 @@ rules:
     description: Security schemes must have a `type` and `description`.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-security-missing-type-description
+    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#request-security-missing-type-description
     given: $.
     then:
     - field: type
