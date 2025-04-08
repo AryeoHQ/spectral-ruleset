@@ -2,6 +2,7 @@ description: Rules related to data types (e.g. null, object, array, or primitive
 documentationUrl: https://aryeohq.github.io
 rules:
   data-array-missing-item:
+    id: data-array-missing-item
     category:
         description: Rules related to data types (null, object, array, primitives).
         id: data
@@ -18,6 +19,7 @@ rules:
       field: items
       function: truthy
   data-array-missing-item-type:
+    id: data-array-missing-item-type
     category:
         description: Rules related to data types (null, object, array, primitives).
         id: data
@@ -37,6 +39,7 @@ rules:
         - type
         - $ref
   data-missing-description:
+    id: data-missing-description
     category:
         description: Rules related to data types (null, object, array, primitives).
         id: data
@@ -53,6 +56,7 @@ rules:
     - field: description
       function: truthy
   data-missing-example:
+    id: data-missing-example
     category:
         description: Rules related to data types (null, object, array, primitives).
         id: data
@@ -70,6 +74,7 @@ rules:
     - field: example
       function: truthy
   data-not-type-or-ref:
+    id: data-not-type-or-ref
     category:
         description: Rules related to data types (null, object, array, primitives).
         id: data
@@ -90,6 +95,7 @@ rules:
         - type
         - $ref
   data-object-missing-additional-prop:
+    id: data-object-missing-additional-prop
     category:
         description: Rules related to data types (null, object, array, primitives).
         id: data
@@ -106,6 +112,7 @@ rules:
     - field: additionalProperties
       function: defined
   data-prop-missing-type-and-description:
+    id: data-prop-missing-type-and-description
     category:
         description: Rules related to data types (null, object, array, primitives).
         id: data
@@ -122,6 +129,7 @@ rules:
     - field: description
       function: truthy
   data-string-date-not-iso-8601:
+    id: data-string-date-not-iso-8601
     category:
         description: Rules related to data types (null, object, array, primitives).
         id: data
@@ -150,6 +158,7 @@ rules:
         max: 10
         min: 10
   data-string-date-time-not-iso-8601:
+    id: data-string-date-time-not-iso-8601
     category:
         description: Rules related to data types (null, object, array, primitives).
         id: data
@@ -179,6 +188,7 @@ rules:
         max: 24
         min: 24
   data-string-format-not-known:
+    id: data-string-format-not-known
     category:
         description: Rules related to data types (null, object, array, primitives).
         id: data
@@ -207,6 +217,7 @@ rules:
         - int32
         - int64
   data-string-missing-min-max:
+    id: data-string-missing-min-max
     category:
         description: Rules related to data types (null, object, array, primitives).
         id: data

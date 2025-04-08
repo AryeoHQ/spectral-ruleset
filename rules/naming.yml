@@ -2,6 +2,7 @@ description: Rules related to naming conventions (e.g. lower_snake_case).
 documentationUrl: https://aryeohq.github.io
 rules:
   naming-header-name-not-hyphenated-pascal-case:
+    id: naming-header-name-not-hyphenated-pascal-case
     category:
         description: Rules related to naming conventions (e.g. lower_snake_case).
         id: naming
@@ -18,6 +19,7 @@ rules:
       functionOptions:
         match: ^([A-Z]+[a-z0-9]*-)+([A-Z]+[a-z0-9]*)$
   naming-path-name-not-lower-kebab-case:
+    id: naming-path-name-not-lower-kebab-case
     category:
         description: Rules related to naming conventions (e.g. lower_snake_case).
         id: naming
@@ -34,6 +36,7 @@ rules:
         match: ^/([a-z0-9.]+(-[a-z0-9.]+)*)?(/[a-z0-9.]+(-[a-z0-9.]+)*|/{.+})*$
       field: '@key'
   naming-path-name-not-lower-kebab-case-with-param-snake-case:
+    id: naming-path-name-not-lower-kebab-case-with-param-snake-case
     category:
         description: Rules related to naming conventions (e.g. lower_snake_case).
         id: naming
@@ -50,6 +53,7 @@ rules:
       functionOptions:
         match: '[a-z0-9]+(?:_[a-z0-9]+)*'
   naming-path-param-name-not-camel-case:
+    id: naming-path-param-name-not-camel-case
     category:
         description: Rules related to naming conventions (e.g. lower_snake_case).
         id: naming
@@ -67,6 +71,7 @@ rules:
         disallowDigits: true
       field: name
   naming-path-param-name-not-lower-snake-case:
+    id: naming-path-param-name-not-lower-snake-case
     category:
         description: Rules related to naming conventions (e.g. lower_snake_case).
         id: naming
@@ -85,6 +90,7 @@ rules:
         disallowDigits: true
       field: name
   naming-prop-name-not-camel-case:
+    id: naming-prop-name-not-camel-case
     category:
         description: Rules related to naming conventions (e.g. lower_snake_case).
         id: naming
@@ -103,6 +109,7 @@ rules:
         disallowDigits: true
       field: name
   naming-prop-name-not-lower-snake-case:
+    id: naming-prop-name-not-lower-snake-case
     category:
         description: Rules related to naming conventions (e.g. lower_snake_case).
         id: naming
@@ -121,6 +128,7 @@ rules:
         disallowDigits: true
       field: name
   naming-query-param-name-not-camel-case:
+    id: naming-query-param-name-not-camel-case
     category:
         description: Rules related to naming conventions (e.g. lower_snake_case).
         id: naming
@@ -138,6 +146,7 @@ rules:
         disallowDigits: true
       field: name
   naming-query-param-name-not-lower-snake-case:
+    id: naming-query-param-name-not-lower-snake-case
     category:
         description: Rules related to naming conventions (e.g. lower_snake_case).
         id: naming
@@ -156,6 +165,7 @@ rules:
         disallowDigits: true
       field: name
   naming-string-enum-value-not-upper-snake-case:
+    id: naming-string-enum-value-not-upper-snake-case
     category:
         description: Rules related to naming conventions (e.g. lower_snake_case).
         id: naming

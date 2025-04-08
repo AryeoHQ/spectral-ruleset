@@ -4,6 +4,7 @@ functions:
 - refSiblings
 rules:
   schema-has-examples:
+    id: schema-has-examples
     category:
         description: Rules related to generic schemas.
         id: schema
@@ -16,6 +17,7 @@ rules:
     then:
       function: falsy
   schema-has-ref-sibling:
+    id: schema-has-ref-sibling
     category:
         description: Rules related to generic schemas.
         id: schema
@@ -29,6 +31,7 @@ rules:
     then:
       function: refSiblings
   schema-has-x-external:
+    id: schema-has-x-external
     category:
         description: Rules related to generic schemas.
         id: schema
@@ -41,6 +44,7 @@ rules:
     then:
     - function: undefined
   schema-has-x-internal:
+    id: schema-has-x-internal
     category:
         description: Rules related to generic schemas.
         id: schema

@@ -2,6 +2,7 @@ description: Rules related to paths.
 documentationUrl: https://aryeohq.github.io
 rules:
   path-has-nested-action:
+    id: path-has-nested-action
     category:
         description: Rules related to paths.
         id: path
@@ -18,6 +19,7 @@ rules:
         notMatch: (\/actions).*(\/actions)
       field: '@key'
   path-has-nested-action-resource:
+    id: path-has-nested-action-resource
     category:
         description: Rules related to paths.
         id: path
@@ -34,6 +36,7 @@ rules:
         notMatch: (\/{.*})(\/.*)?\/actions(\/.*)?(\/{.*})
       field: '@key'
   path-not-ref:
+    id: path-not-ref
     category:
         description: Rules related to paths.
         id: path
@@ -49,6 +52,7 @@ rules:
     - field: $ref
       function: truthy
   path-not-ref-to-path-dir:
+    id: path-not-ref-to-path-dir
     category:
         description: Rules related to paths.
         id: path

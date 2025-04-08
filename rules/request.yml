@@ -2,6 +2,7 @@ description: Rules related to requests (e.g. headers, params, bodies, security).
 documentationUrl: https://aryeohq.github.io
 rules:
   request-get-has-body:
+    id: request-get-has-body
     category:
         description: Rules related to requests (e.g. headers, params, bodies, security).
         id: request
@@ -14,6 +15,7 @@ rules:
     then:
       function: falsy
   request-header-not-ref:
+    id: request-header-not-ref
     category:
         description: Rules related to requests (e.g. headers, params, bodies, security).
         id: request
@@ -29,6 +31,7 @@ rules:
     - field: $ref
       function: truthy
   request-header-not-ref-to-comp-dir:
+    id: request-header-not-ref-to-comp-dir
     category:
         description: Rules related to requests (e.g. headers, params, bodies, security).
         id: request
@@ -46,6 +49,7 @@ rules:
       functionOptions:
         match: ^\\.\\.\/(components\/)?headers\/.*\\.json$
   request-missing-header-x-stplus-request-id:
+    id: request-missing-header-x-stplus-request-id
     category:
         description: Rules related to requests (e.g. headers, params, bodies, security).
         id: request
@@ -72,6 +76,7 @@ rules:
                 type: string
                 pattern: ^header$
   request-missing-header-x-stplus-request-ip:
+    id: request-missing-header-x-stplus-request-ip
     category:
         description: Rules related to requests (e.g. headers, params, bodies, security).
         id: request
@@ -98,6 +103,7 @@ rules:
                 type: string
                 pattern: ^header$
   request-missing-header-x-stplus-request-user-agent:
+    id: request-missing-header-x-stplus-request-user-agent
     category:
         description: Rules related to requests (e.g. headers, params, bodies, security).
         id: request
@@ -124,6 +130,7 @@ rules:
                 type: string
                 pattern: ^header$
   request-missing-header-x-stplus-request-timezone:
+    id: request-missing-header-x-stplus-request-timezone
     category:
         description: Rules related to requests (e.g. headers, params, bodies, security).
         id: request
@@ -150,6 +157,7 @@ rules:
                 type: string
                 pattern: ^header$
   request-missing-header-x-stplus-request-language:
+    id: request-missing-header-x-stplus-request-language
     category:
         description: Rules related to requests (e.g. headers, params, bodies, security).
         id: request
@@ -176,6 +184,7 @@ rules:
                 type: string
                 pattern: ^header$
   request-security-missing-type-description:
+    id: request-security-missing-type-description
     category:
         description: Rules related to requests (e.g. headers, params, bodies, security).
         id: request
