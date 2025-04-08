@@ -53,19 +53,57 @@
         .rule-title {
             font-weight: bold;
             font-size: 1.5em;
+            position: relative;
+            display: flex;
+            align-items: center;
         }
 
-        .rule-title a {
+        .rule-name {
             color: inherit;
             text-decoration: none;
-            position: relative;
         }
 
-        .rule-title a:hover::after {
-            content: " 🔗";
+        .copy-link-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
             font-size: 0.7em;
             position: relative;
-            top: -2px;
+            margin-left: 8px;
+            display: inline-flex;
+            align-items: center;
+            padding: 4px;
+            opacity: 0.7;
+        }
+
+        .copy-link-btn:hover {
+            opacity: 1;
+        }
+
+        .link-icon {
+            margin-right: 2px;
+        }
+
+        .copied-message {
+            position: absolute;
+            font-size: 0.9em;
+            background-color: #333;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s, top 0.3s;
+            pointer-events: none;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        .copied-message.show {
+            opacity: 1;
+            top: -30px;
         }
 
         .rule-description {
@@ -139,6 +177,21 @@
             background-color: transparent;
             padding: 0;
         }
+
+        /* Highlight effect for rules when navigated via URL */
+        .highlight-rule {
+            animation: highlight-fade 2s ease-out;
+        }
+
+        @keyframes highlight-fade {
+            0% {
+                background-color: rgba(255, 255, 0, 0.3);
+            }
+
+            100% {
+                background-color: transparent;
+            }
+        }
     </style>
 </head>
 
@@ -162,11 +215,98 @@
     <script>
         const content = document.getElementById('content');
         const fileSelect = document.getElementById('fileSelect');
+        const ruleFileMap = {
+            'data': './rules/data.yml',
+            'naming': './rules/naming.yml',
+            'path': './rules/path.yml',
+            'request': './rules/request.yml',
+            'response': './rules/response.yml',
+            'schema': './rules/schema.yml'
+        };
 
-        // Load README.md by default
+        // Load README.md by default or navigate to a rule based on hash
         document.addEventListener('DOMContentLoaded', function () {
-            loadReadme();
+            // Check if there's a hash in the URL
+            if (window.location.hash) {
+                navigateToRuleFromHash();
+            } else {
+                loadReadme();
+            }
         });
+
+        // Listen for hash changes to update content
+        window.addEventListener('hashchange', navigateToRuleFromHash);
+
+        // Function to navigate to a rule based on URL hash
+        function navigateToRuleFromHash() {
+            const hash = window.location.hash.substring(1); // Remove the leading #
+            if (!hash) {
+                loadReadme();
+                return;
+            }
+
+            // Find which file contains the rule
+            const filePrefix = hash.split('-')[0]; // For example, 'data' from 'data-missing-description'
+            const filePath = ruleFileMap[filePrefix];
+
+            if (filePath) {
+                // Set the file select value
+                fileSelect.value = filePath;
+
+                // Load the file and then scroll to the rule
+                loadRuleFile(filePath, hash);
+            } else {
+                loadReadme();
+            }
+        }
+
+        // Function to load a rule file and optionally navigate to a specific rule
+        async function loadRuleFile(filePath, ruleId = null) {
+            try {
+                const cacheBuster = new Date().getTime();
+                const response = await fetch(`${filePath}?_=${cacheBuster}`);
+                const yamlText = await response.text();
+
+                // Split the content into front matter and rules
+                const parts = yamlText.split('---\n');
+
+                // YAML with front matter will have 2 parts:
+                // parts[0] = front matter content
+                // parts[1] = rules content
+                let rulesYaml, frontMatter;
+
+                if (parts.length >= 2) {
+                    // Has front matter
+                    frontMatter = parts[0];
+                    rulesYaml = parts[1];
+                } else {
+                    // No front matter
+                    frontMatter = '';
+                    rulesYaml = yamlText;
+                }
+
+                const yamlData = jsyaml.load(rulesYaml);
+                displayFrontMatter(frontMatter);
+                await displayRules(yamlData.rules);
+
+                // If a specific rule ID was provided, scroll to it
+                if (ruleId) {
+                    setTimeout(() => {
+                        const element = document.getElementById(ruleId);
+                        if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                            // Add a highlight effect
+                            element.classList.add('highlight-rule');
+                            setTimeout(() => {
+                                element.classList.remove('highlight-rule');
+                            }, 2000);
+                        }
+                    }, 300); // Small delay to ensure DOM is ready and rules are loaded
+                }
+            } catch (error) {
+                content.innerHTML = `<div>Error loading file: ${error.message}</div>`;
+            }
+        }
 
         async function loadReadme() {
             try {
@@ -192,46 +332,10 @@
             }
         }
 
-        fileSelect.addEventListener('change', async function () {
+        fileSelect.addEventListener('change', function () {
             const fileName = this.value;
             if (fileName) {
-                try {
-                    const cacheBuster = new Date().getTime();
-                    const response = await fetch(`${fileName}?_=${cacheBuster}`);
-                    const yamlText = await response.text();
-
-                    // Split the content into front matter and rules
-                    const parts = yamlText.split('---\n');
-
-                    // YAML with front matter will have 2 parts:
-                    // parts[0] = front matter content
-                    // parts[1] = rules content
-                    let rulesYaml, frontMatter;
-
-                    if (parts.length >= 2) {
-                        // Has front matter
-                        frontMatter = parts[0];
-                        rulesYaml = parts[1];
-                    } else {
-                        // No front matter
-                        frontMatter = '';
-                        rulesYaml = yamlText;
-                    }
-
-                    const yamlData = jsyaml.load(rulesYaml);
-                    displayFrontMatter(frontMatter);
-                    displayRules(yamlData.rules);
-
-                    // Check if there's a hash in the URL and scroll to the rule if it exists
-                    if (window.location.hash) {
-                        const element = document.querySelector(window.location.hash);
-                        if (element) {
-                            element.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    }
-                } catch (error) {
-                    content.innerHTML = `<div>Error loading file: ${error.message}</div>`;
-                }
+                loadRuleFile(fileName);
             } else {
                 // Load README content when no file is selected
                 loadReadme();
@@ -278,9 +382,9 @@
 
             for (const [title, rule] of Object.entries(rules)) {
                 const ruleDiv = document.createElement('div');
-                // Add an id to the div using the rule title (sanitized for URL)
-                const ruleId = `rule-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
-                ruleDiv.id = ruleId;
+                // Use the raw rule name as the ID to match URL hash format
+                // Instead of sanitizing, just use the original rule name
+                ruleDiv.id = title;
 
                 // Instead of parsing the description, load examples from examples/rules
                 const description = rule.description || 'No description available.';
@@ -315,7 +419,11 @@
 
                 ruleDiv.innerHTML = `
                     <div class="rule-title">
-                        <a href="#${ruleId}">${title}</a>
+                        <span class="rule-name">${title}</span>
+                        <button class="copy-link-btn" title="Copy link to this rule" data-rule="${title}">
+                            <span class="link-icon">🔗</span>
+                            <span class="copied-message">Copied!</span>
+                        </button>
                     </div>
                     <div class="rule-description">${description}</div>
                     <div class="examples-container">
@@ -336,6 +444,46 @@
 
                 content.appendChild(ruleDiv);
             }
+
+            // Add click event listeners to copy link buttons
+            document.querySelectorAll('.copy-link-btn').forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const ruleId = this.getAttribute('data-rule');
+                    const url = window.location.origin + window.location.pathname + '#' + ruleId;
+
+                    // Copy to clipboard
+                    navigator.clipboard.writeText(url).then(() => {
+                        // Show copied message
+                        const message = this.querySelector('.copied-message');
+                        message.classList.add('show');
+
+                        // Force a reflow to make the animation work
+                        void message.offsetWidth;
+
+                        setTimeout(() => {
+                            message.classList.remove('show');
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Could not copy URL: ', err);
+                        // Fallback for browsers that don't support clipboard API
+                        const tempInput = document.createElement('input');
+                        document.body.appendChild(tempInput);
+                        tempInput.value = url;
+                        tempInput.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+
+                        // Still show the message
+                        const message = this.querySelector('.copied-message');
+                        message.textContent = 'Copied!';
+                        message.classList.add('show');
+                        setTimeout(() => {
+                            message.classList.remove('show');
+                        }, 2000);
+                    });
+                });
+            });
 
             // Highlight all code blocks after they are added to the DOM
             Prism.highlightAll();
