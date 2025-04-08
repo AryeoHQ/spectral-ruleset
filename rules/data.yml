@@ -4,6 +4,7 @@ rules:
   data-array-missing-item:
     description: Arrays must specify their items.
     severity: 'off'
+    howToFix: https://aryeohq.github.io/spectral-ruleset/#data-array-missing-item
     given:
     - $..paths.*.*.parameters..[?(@.type == 'array')]
     - $..paths.*.parameters..[?(@.type == 'array')]
@@ -14,6 +15,7 @@ rules:
   data-array-missing-item-type:
     description: Arrays must specify an item type.
     severity: 'off'
+    howToFix: https://aryeohq.github.io/spectral-ruleset/#data-array-missing-item-type
     given:
     - $..paths.*.*.parameters..[?(@.type == 'array')].items
     - $..paths.*.parameters..[?(@.type == 'array')].items
@@ -27,6 +29,7 @@ rules:
   data-missing-description:
     description: Properties and parameters must have a non-empty `description`.
     severity: 'off'
+    howToFix: https://aryeohq.github.io/spectral-ruleset/#data-missing-description
     given:
     - $..properties.[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type
       == 'boolean'||@.type == 'object')]
@@ -37,6 +40,7 @@ rules:
   data-missing-example:
     description: Properties and parameters must have a non-empty `example`.
     severity: 'off'
+    howToFix: https://aryeohq.github.io/spectral-ruleset/#data-missing-example
     given:
     - $..properties[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type
       == 'boolean')]
@@ -50,6 +54,7 @@ rules:
       Composite types are not allowed because they are not supported by most SDK generation
       tools.
     severity: 'off'
+    howToFix: https://aryeohq.github.io/spectral-ruleset/#data-not-type-or-ref
     given:
     - $..properties.*
     - $..parameters[*].schema
@@ -63,6 +68,7 @@ rules:
     description: Objects must define `additionalProperties` as true or false. Default
       to false.
     severity: 'off'
+    howToFix: https://aryeohq.github.io/spectral-ruleset/#data-object-missing-additional-prop
     given:
     - $
     - $..[?(@.type == 'object')]
@@ -72,6 +78,7 @@ rules:
   data-prop-missing-type-and-description:
     description: Properties must have a non-empty `type` and `description`.
     severity: 'off'
+    howToFix: https://aryeohq.github.io/spectral-ruleset/#data-prop-missing-type-and-description
     given: $..properties.[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type
       == 'boolean'||@.type == 'object')]
     then:
@@ -83,6 +90,7 @@ rules:
     description: Date properties and parameters must be specified in ISO 8601 (yyyy-mm-dd)
       format.
     severity: 'off'
+    howToFix: https://aryeohq.github.io/spectral-ruleset/#data-string-date-not-iso-8601
     given:
     - $..properties[?(@.type == 'string'&&@.format == 'date')]
     - $..parameters[*][?(@.type == 'string'&&@.format == 'date')]
@@ -106,6 +114,7 @@ rules:
       (yyyy-MM-ddTHH:mm:ss.fffZ) format. Millisecond precision is provided with 3
       decimal digits.
     severity: 'off'
+    howToFix: https://aryeohq.github.io/spectral-ruleset/#data-string-date-time-not-iso-8601
     given:
     - $..properties[?(@.type == 'string'&&@.format == 'date-time')]
     - $..parameters[*][?(@.type == 'string'&&@.format == 'date-time')]
@@ -127,6 +136,7 @@ rules:
   data-string-format-not-known:
     description: String formats must be in set (date,date-time,password,byte,binary,email,uuid,uri,base64,float,double,int32,int64).
     severity: 'off'
+    howToFix: https://aryeohq.github.io/spectral-ruleset/#data-string-format-not-known
     given:
     - $..format
     then:
@@ -149,6 +159,7 @@ rules:
   data-string-missing-min-max:
     description: String properties and parameters must specify a `minLength` and `maxLength`.
     severity: 'off'
+    howToFix: https://aryeohq.github.io/spectral-ruleset/#data-string-missing-min-max
     given:
     - $..properties[?(@.type == 'string')]
     - $..paths.*.*.parameters.*[?(@.type == 'string')]
