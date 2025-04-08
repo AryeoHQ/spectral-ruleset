@@ -2,6 +2,10 @@ description: Rules related to paths.
 ---
 rules:
   path-has-nested-action:
+    category:
+        description: Rules related to paths.
+        id: path
+        name: Path
     description: Paths cannot have nested actions.
     given:
     - $.paths
@@ -13,6 +17,10 @@ rules:
         notMatch: (\/actions).*(\/actions)
       field: '@key'
   path-has-nested-action-resource:
+    category:
+        description: Rules related to paths.
+        id: path
+        name: Path
     description: Paths cannot have resources nested after actions.
     given:
     - $.paths
@@ -24,6 +32,10 @@ rules:
         notMatch: (\/{.*})(\/.*)?\/actions(\/.*)?(\/{.*})
       field: '@key'
   path-not-ref:
+    category:
+        description: Rules related to paths.
+        id: path
+        name: Path
     description: Paths must be specified using a `$ref`.
     given:
     - $.paths.*
@@ -34,6 +46,10 @@ rules:
     - field: $ref
       function: truthy
   path-not-ref-to-path-dir:
+    category:
+        description: Rules related to paths.
+        id: path
+        name: Path
     description: Paths must be specified using a `$ref` to the `./paths` directory.
     given:
     - $.paths.*.$ref

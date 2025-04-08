@@ -2,6 +2,10 @@ description: Rules related to naming conventions (e.g. lower_snake_case).
 ---
 rules:
   naming-header-name-not-hyphenated-pascal-case:
+    category:
+        description: Rules related to naming conventions (e.g. lower_snake_case).
+        id: naming
+        name: Naming
     description: Header names must use `Hyphenated-Pascal-Case`.
     given:
     - $..parameters[?(@.in == ''header'')].name
@@ -13,6 +17,10 @@ rules:
       functionOptions:
         match: ^([A-Z]+[a-z0-9]*-)+([A-Z]+[a-z0-9]*)$
   naming-path-name-not-lower-kebab-case:
+    category:
+        description: Rules related to naming conventions (e.g. lower_snake_case).
+        id: naming
+        name: Naming
     description: Path names must use `lower-kebab-case`.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-path-name-not-lower-kebab-case
@@ -24,6 +32,10 @@ rules:
         match: ^/([a-z0-9.]+(-[a-z0-9.]+)*)?(/[a-z0-9.]+(-[a-z0-9.]+)*|/{.+})*$
       field: '@key'
   naming-path-name-not-lower-kebab-case-with-param-snake-case:
+    category:
+        description: Rules related to naming conventions (e.g. lower_snake_case).
+        id: naming
+        name: Naming
     description: Path names must use `lower-kebab-case` with `lower_snake_case` parameters,
       if provided.
     severity: 'off'
@@ -35,6 +47,10 @@ rules:
       functionOptions:
         match: '[a-z0-9]+(?:_[a-z0-9]+)*'
   naming-path-param-name-not-camel-case:
+    category:
+        description: Rules related to naming conventions (e.g. lower_snake_case).
+        id: naming
+        name: Naming
     description: Path parameter names must use `camelCase`. Digits are not allowed.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-path-param-name-not-camel-case
@@ -47,6 +63,10 @@ rules:
         disallowDigits: true
       field: name
   naming-path-param-name-not-lower-snake-case:
+    category:
+        description: Rules related to naming conventions (e.g. lower_snake_case).
+        id: naming
+        name: Naming
     description: Path parameter names must use `lower_snake_case`. Digits are not
       allowed.
     severity: 'off'
@@ -60,6 +80,10 @@ rules:
         disallowDigits: true
       field: name
   naming-prop-name-not-camel-case:
+    category:
+        description: Rules related to naming conventions (e.g. lower_snake_case).
+        id: naming
+        name: Naming
     description: Property names must use `camelCase`. Digits are not allowed.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-prop-name-not-camel-case
@@ -73,6 +97,10 @@ rules:
         disallowDigits: true
       field: name
   naming-prop-name-not-lower-snake-case:
+    category:
+        description: Rules related to naming conventions (e.g. lower_snake_case).
+        id: naming
+        name: Naming
     description: Property names must use `lower_snake_case`. Digits are not allowed.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-prop-name-not-lower-snake-case
@@ -86,6 +114,10 @@ rules:
         disallowDigits: true
       field: name
   naming-query-param-name-not-camel-case:
+    category:
+        description: Rules related to naming conventions (e.g. lower_snake_case).
+        id: naming
+        name: Naming
     description: Query parameter names must use `camelCase`. Digits are not allowed.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-query-param-name-not-camel-case
@@ -98,6 +130,10 @@ rules:
         disallowDigits: true
       field: name
   naming-query-param-name-not-lower-snake-case:
+    category:
+        description: Rules related to naming conventions (e.g. lower_snake_case).
+        id: naming
+        name: Naming
     description: Query parameter names must use `lower_snake_case`. Digits are not
       allowed.
     severity: 'off'
@@ -111,6 +147,10 @@ rules:
         disallowDigits: true
       field: name
   naming-string-enum-value-not-upper-snake-case:
+    category:
+        description: Rules related to naming conventions (e.g. lower_snake_case).
+        id: naming
+        name: Naming
     description: Enumeration values must use `UPPER_SNAKE_CASE`.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-string-enum-value-not-upper-snake-case

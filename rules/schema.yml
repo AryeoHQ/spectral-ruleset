@@ -4,6 +4,10 @@ functions:
 - refSiblings
 rules:
   schema-has-examples:
+    category:
+        description: Rules related to generic schemas.
+        id: schema
+        name: Schema
     description: Schemas should not have examples. Use property example values instead.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#schema-has-examples
@@ -11,6 +15,10 @@ rules:
     then:
       function: falsy
   schema-has-ref-sibling:
+    category:
+        description: Rules related to generic schemas.
+        id: schema
+        name: Schema
     description: Properties must not be placed alongside a `$ref`.
     resolved: false
     severity: 'off'
@@ -19,6 +27,10 @@ rules:
     then:
       function: refSiblings
   schema-has-x-external:
+    category:
+        description: Rules related to generic schemas.
+        id: schema
+        name: Schema
     description: Don't define `x-external` at the top level.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#schema-has-x-external
@@ -26,6 +38,10 @@ rules:
     then:
     - function: undefined
   schema-has-x-internal:
+    category:
+        description: Rules related to generic schemas.
+        id: schema
+        name: Schema
     description: Don't define `x-internal` at the top level.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#schema-has-x-internal

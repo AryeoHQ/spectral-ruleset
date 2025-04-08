@@ -2,6 +2,10 @@ description: Rules related to requests (e.g. headers, params, bodies, security).
 ---
 rules:
   request-get-has-body:
+    category:
+        description: Rules related to requests (e.g. headers, params, bodies, security).
+        id: request
+        name: Request
     description: GET requests should not specify a `requestBody`.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-get-has-body
@@ -9,6 +13,10 @@ rules:
     then:
       function: falsy
   request-header-not-ref:
+    category:
+        description: Rules related to requests (e.g. headers, params, bodies, security).
+        id: request
+        name: Request
     description: Request headers must be specified using a `$ref`.
     given:
     - $..headers.*
@@ -19,6 +27,10 @@ rules:
     - field: $ref
       function: truthy
   request-header-not-ref-to-comp-dir:
+    category:
+        description: Rules related to requests (e.g. headers, params, bodies, security).
+        id: request
+        name: Request
     description: Request headers must be specified using a `$ref` to the `../components/headers`
       directory.
     given:
@@ -31,6 +43,10 @@ rules:
       functionOptions:
         match: ^\\.\\.\/(components\/)?headers\/.*\\.json$
   request-missing-header-x-stplus-request-id:
+    category:
+        description: Rules related to requests (e.g. headers, params, bodies, security).
+        id: request
+        name: Request
     description: Paths must include the `X-STPlus-Request-Id` context header.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-id
@@ -52,6 +68,10 @@ rules:
                 type: string
                 pattern: ^header$
   request-missing-header-x-stplus-request-ip:
+    category:
+        description: Rules related to requests (e.g. headers, params, bodies, security).
+        id: request
+        name: Request
     description: Paths must include the `X-STPlus-Request-Ip` context header.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-ip
@@ -73,6 +93,10 @@ rules:
                 type: string
                 pattern: ^header$
   request-missing-header-x-stplus-request-user-agent:
+    category:
+        description: Rules related to requests (e.g. headers, params, bodies, security).
+        id: request
+        name: Request
     description: Paths must include the `X-STPlus-Request-User-Agent` context header.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-user-agent
@@ -94,6 +118,10 @@ rules:
                 type: string
                 pattern: ^header$
   request-missing-header-x-stplus-request-timezone:
+    category:
+        description: Rules related to requests (e.g. headers, params, bodies, security).
+        id: request
+        name: Request
     description: Paths must include the `X-STPlus-Request-Timezone` context header.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-timezone
@@ -115,6 +143,10 @@ rules:
                 type: string
                 pattern: ^header$
   request-missing-header-x-stplus-request-language:
+    category:
+        description: Rules related to requests (e.g. headers, params, bodies, security).
+        id: request
+        name: Request
     description: Paths must include the `X-STPlus-Request-Language` context header.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-missing-header-x-stplus-request-language
@@ -136,6 +168,10 @@ rules:
                 type: string
                 pattern: ^header$
   request-security-missing-type-description:
+    category:
+        description: Rules related to requests (e.g. headers, params, bodies, security).
+        id: request
+        name: Request
     description: Security schemes must have a `type` and `description`.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#request-security-missing-type-description
