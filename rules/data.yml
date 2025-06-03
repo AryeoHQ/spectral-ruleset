@@ -2,9 +2,8 @@ description: Rules related to data types (e.g. null, object, array, or primitive
 documentationUrl: https://aryeohq.github.io
 rules:
   data-array-missing-item:
-    id: data-array-missing-item
     description: Arrays must specify their items.
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-array-missing-item
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#data-array-missing-item
     given:
@@ -15,9 +14,8 @@ rules:
       field: items
       function: truthy
   data-array-missing-item-type:
-    id: data-array-missing-item-type
     description: Arrays must specify an item type.
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-array-missing-item-type
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#data-array-missing-item-type
     given:
@@ -31,9 +29,8 @@ rules:
         - type
         - $ref
   data-missing-description:
-    id: data-missing-description
     description: Properties and parameters must have a non-empty `description`.
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-missing-description
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#data-missing-description
     given:
@@ -44,9 +41,8 @@ rules:
     - field: description
       function: truthy
   data-missing-example:
-    id: data-missing-example
     description: Properties and parameters must have a non-empty `example`.
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-missing-example
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#data-missing-example
     given:
@@ -58,11 +54,10 @@ rules:
     - field: example
       function: truthy
   data-not-type-or-ref:
-    id: data-not-type-or-ref
     description: Properties and parameters should specify either a `type` or `$ref`.
       Composite types are not allowed because they are not supported by most SDK generation
       tools.
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-not-type-or-ref
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#data-not-type-or-ref
     given:
@@ -75,10 +70,9 @@ rules:
         - type
         - $ref
   data-object-missing-additional-prop:
-    id: data-object-missing-additional-prop
     description: Objects must define `additionalProperties` as true or false. Default
       to false.
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-object-missing-additional-prop
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#data-object-missing-additional-prop
     given:
@@ -88,9 +82,8 @@ rules:
     - field: additionalProperties
       function: defined
   data-prop-missing-type-and-description:
-    id: data-prop-missing-type-and-description
     description: Properties must have a non-empty `type` and `description`.
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-prop-missing-type-and-description
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#data-prop-missing-type-and-description
     given: $..properties.[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type
@@ -101,10 +94,9 @@ rules:
     - field: description
       function: truthy
   data-string-date-not-iso-8601:
-    id: data-string-date-not-iso-8601
     description: Date properties and parameters must be specified in ISO 8601 (yyyy-mm-dd)
       format.
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-string-date-not-iso-8601
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#data-string-date-not-iso-8601
     given:
@@ -126,11 +118,10 @@ rules:
         max: 10
         min: 10
   data-string-date-time-not-iso-8601:
-    id: data-string-date-time-not-iso-8601
     description: Date-time properties and parameters must be specified in ISO 8601
       (yyyy-MM-ddTHH:mm:ss.fffZ) format. Millisecond precision is provided with 3
       decimal digits.
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-string-date-time-not-iso-8601
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#data-string-date-time-not-iso-8601
     given:
@@ -153,18 +144,17 @@ rules:
         min: 24
   data-string-format-not-known:
     description: "String formats must be in set (date,date-time,email,uuid,uri,base64)."
-    given: $..format
-    severity: error
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-string-format-not-known
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#data-string-format-not-known
+    given: $..format
     then:
       function: enumeration
       functionOptions:
         values: "date, date-time, email, uuid, uri, base64"
   data-string-missing-min-max:
-    id: data-string-missing-min-max
-    description: String properties and parameters must specify a `minLength` and `maxLength`.
-    severity: 'off'
+    description: "String properties and parameters must specify a `minLength` and `maxLength`."
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-string-missing-min-max
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#data-string-missing-min-max
     given:

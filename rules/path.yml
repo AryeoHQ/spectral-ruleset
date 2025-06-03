@@ -2,11 +2,10 @@ description: Rules related to paths.
 documentationUrl: https://aryeohq.github.io
 rules:
   path-has-nested-action:
-    id: path-has-nested-action
     description: Paths cannot have nested actions.
     given:
     - $.paths
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#path-has-nested-action
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#path-has-nested-action
     then:
@@ -15,11 +14,10 @@ rules:
         notMatch: (\/actions).*(\/actions)
       field: '@key'
   path-has-nested-action-resource:
-    id: path-has-nested-action-resource
     description: Paths cannot have resources nested after actions.
     given:
     - $.paths
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#path-has-nested-action-resource
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#path-has-nested-action-resource
     then:
@@ -28,23 +26,21 @@ rules:
         notMatch: (\/{.*})(\/.*)?\/actions(\/.*)?(\/{.*})
       field: '@key'
   path-not-ref:
-    id: path-not-ref
     description: Paths must be specified using a `$ref`.
     given:
     - $.paths.*
     resolved: false
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#path-not-ref
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#path-not-ref
     then:
     - field: $ref
       function: truthy
   path-not-ref-to-path-dir:
-    id: path-not-ref-to-path-dir
     description: Paths must be specified using a `$ref` to the `./paths` directory.
     given:
     - $.paths.*.$ref
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#path-not-ref-to-path-dir
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#path-not-ref-to-path-dir
     then:

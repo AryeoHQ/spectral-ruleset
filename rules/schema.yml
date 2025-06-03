@@ -4,37 +4,33 @@ functions:
 - refSiblings
 rules:
   schema-has-examples:
-    id: schema-has-examples
     description: Schemas should not have examples. Use property example values instead.
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#schema-has-examples
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#schema-has-examples
     given: $..examples
     then:
       function: falsy
   schema-has-ref-sibling:
-    id: schema-has-ref-sibling
     description: Properties must not be placed alongside a `$ref`.
     resolved: false
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#schema-has-ref-sibling
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#schema-has-ref-sibling
     given: $..[?(@property === '$ref')]
     then:
       function: refSiblings
   schema-has-x-external:
-    id: schema-has-x-external
     description: Don't define `x-external` at the top level.
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#schema-has-x-external
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#schema-has-x-external
     given: $["x-external"]
     then:
     - function: undefined
   schema-has-x-internal:
-    id: schema-has-x-internal
     description: Don't define `x-internal` at the top level.
-    severity: 'off'
+    severity: info
     howToFix: https://aryeohq.github.io/spectral-ruleset/#schema-has-x-internal
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#schema-has-x-internal
     given: $["x-internal"]
