@@ -3,10 +3,6 @@ documentationUrl: https://aryeohq.github.io
 rules:
   data-array-missing-item:
     id: data-array-missing-item
-    category:
-        description: Rules related to data types (null, object, array, primitives).
-        id: data
-        name: Data
     description: Arrays must specify their items.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-array-missing-item
@@ -20,10 +16,6 @@ rules:
       function: truthy
   data-array-missing-item-type:
     id: data-array-missing-item-type
-    category:
-        description: Rules related to data types (null, object, array, primitives).
-        id: data
-        name: Data
     description: Arrays must specify an item type.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-array-missing-item-type
@@ -40,10 +32,6 @@ rules:
         - $ref
   data-missing-description:
     id: data-missing-description
-    category:
-        description: Rules related to data types (null, object, array, primitives).
-        id: data
-        name: Data
     description: Properties and parameters must have a non-empty `description`.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-missing-description
@@ -57,10 +45,6 @@ rules:
       function: truthy
   data-missing-example:
     id: data-missing-example
-    category:
-        description: Rules related to data types (null, object, array, primitives).
-        id: data
-        name: Data
     description: Properties and parameters must have a non-empty `example`.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-missing-example
@@ -75,10 +59,6 @@ rules:
       function: truthy
   data-not-type-or-ref:
     id: data-not-type-or-ref
-    category:
-        description: Rules related to data types (null, object, array, primitives).
-        id: data
-        name: Data
     description: Properties and parameters should specify either a `type` or `$ref`.
       Composite types are not allowed because they are not supported by most SDK generation
       tools.
@@ -96,10 +76,6 @@ rules:
         - $ref
   data-object-missing-additional-prop:
     id: data-object-missing-additional-prop
-    category:
-        description: Rules related to data types (null, object, array, primitives).
-        id: data
-        name: Data
     description: Objects must define `additionalProperties` as true or false. Default
       to false.
     severity: 'off'
@@ -113,10 +89,6 @@ rules:
       function: defined
   data-prop-missing-type-and-description:
     id: data-prop-missing-type-and-description
-    category:
-        description: Rules related to data types (null, object, array, primitives).
-        id: data
-        name: Data
     description: Properties must have a non-empty `type` and `description`.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-prop-missing-type-and-description
@@ -130,10 +102,6 @@ rules:
       function: truthy
   data-string-date-not-iso-8601:
     id: data-string-date-not-iso-8601
-    category:
-        description: Rules related to data types (null, object, array, primitives).
-        id: data
-        name: Data
     description: Date properties and parameters must be specified in ISO 8601 (yyyy-mm-dd)
       format.
     severity: 'off'
@@ -159,10 +127,6 @@ rules:
         min: 10
   data-string-date-time-not-iso-8601:
     id: data-string-date-time-not-iso-8601
-    category:
-        description: Rules related to data types (null, object, array, primitives).
-        id: data
-        name: Data
     description: Date-time properties and parameters must be specified in ISO 8601
       (yyyy-MM-ddTHH:mm:ss.fffZ) format. Millisecond precision is provided with 3
       decimal digits.
@@ -188,40 +152,17 @@ rules:
         max: 24
         min: 24
   data-string-format-not-known:
-    id: data-string-format-not-known
-    category:
-        description: Rules related to data types (null, object, array, primitives).
-        id: data
-        name: Data
-    description: String formats must be in set (date,date-time,password,byte,binary,email,uuid,uri,base64,float,double,int32,int64).
-    severity: 'off'
+    description: "String formats must be in set (date,date-time,email,uuid,uri,base64)."
+    given: $..format
+    severity: error
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-string-format-not-known
     documentationUrl: https://aryeohq.github.io/spectral-ruleset/#data-string-format-not-known
-    given:
-    - $..format
     then:
       function: enumeration
       functionOptions:
-        values:
-        - date
-        - date-time
-        - password
-        - byte
-        - binary
-        - email
-        - uuid
-        - uri
-        - base64
-        - float
-        - double
-        - int32
-        - int64
+        values: "date, date-time, email, uuid, uri, base64"
   data-string-missing-min-max:
     id: data-string-missing-min-max
-    category:
-        description: Rules related to data types (null, object, array, primitives).
-        id: data
-        name: Data
     description: String properties and parameters must specify a `minLength` and `maxLength`.
     severity: 'off'
     howToFix: https://aryeohq.github.io/spectral-ruleset/#data-string-missing-min-max

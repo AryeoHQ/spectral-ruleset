@@ -3,10 +3,6 @@ documentationUrl: https://aryeohq.github.io
 rules:
   path-has-nested-action:
     id: path-has-nested-action
-    category:
-        description: Rules related to paths.
-        id: path
-        name: Path
     description: Paths cannot have nested actions.
     given:
     - $.paths
@@ -20,10 +16,6 @@ rules:
       field: '@key'
   path-has-nested-action-resource:
     id: path-has-nested-action-resource
-    category:
-        description: Rules related to paths.
-        id: path
-        name: Path
     description: Paths cannot have resources nested after actions.
     given:
     - $.paths
@@ -37,10 +29,6 @@ rules:
       field: '@key'
   path-not-ref:
     id: path-not-ref
-    category:
-        description: Rules related to paths.
-        id: path
-        name: Path
     description: Paths must be specified using a `$ref`.
     given:
     - $.paths.*
@@ -53,10 +41,6 @@ rules:
       function: truthy
   path-not-ref-to-path-dir:
     id: path-not-ref-to-path-dir
-    category:
-        description: Rules related to paths.
-        id: path
-        name: Path
     description: Paths must be specified using a `$ref` to the `./paths` directory.
     given:
     - $.paths.*.$ref
