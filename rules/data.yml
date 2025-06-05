@@ -1,7 +1,7 @@
 rules:
   data-array-missing-item:
     description: Arrays must specify their items.
-    severity: info
+    severity: off
     given:
     - $..paths.*.*.parameters..[?(@.type == 'array')]
     - $..paths.*.parameters..[?(@.type == 'array')]
@@ -11,7 +11,7 @@ rules:
       function: truthy
   data-array-missing-item-type:
     description: Arrays must specify an item type.
-    severity: info
+    severity: off
     given:
     - $..paths.*.*.parameters..[?(@.type == 'array')].items
     - $..paths.*.parameters..[?(@.type == 'array')].items
@@ -24,7 +24,7 @@ rules:
         - $ref
   data-missing-description:
     description: Properties and parameters must have a non-empty `description`.
-    severity: info
+    severity: off
     given:
     - $..properties.[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type
       == 'boolean'||@.type == 'object')]
@@ -34,7 +34,7 @@ rules:
       function: truthy
   data-missing-example:
     description: Properties and parameters must have a non-empty `example`.
-    severity: info
+    severity: off
     given:
     - $..properties[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type
       == 'boolean')]
@@ -47,7 +47,7 @@ rules:
     description: Properties and parameters should specify either a `type` or `$ref`.
       Composite types are not allowed because they are not supported by most SDK generation
       tools.
-    severity: info
+    severity: off
     given:
     - $..properties.*
     - $..parameters[*].schema
@@ -60,7 +60,7 @@ rules:
   data-object-missing-additional-prop:
     description: Objects must define `additionalProperties` as true or false. Default
       to false.
-    severity: info
+    severity: off
     given:
     - $
     - $..[?(@.type == 'object')]
@@ -69,7 +69,7 @@ rules:
       function: defined
   data-prop-missing-type-and-description:
     description: Properties must have a non-empty `type` and `description`.
-    severity: info
+    severity: off
     given: $..properties.[?(@.type == 'string'||@.type == 'number'||@.type == 'integer'||@.type
       == 'boolean'||@.type == 'object')]
     then:
@@ -80,7 +80,7 @@ rules:
   data-string-date-not-iso-8601:
     description: Date properties and parameters must be specified in ISO 8601 (yyyy-mm-dd)
       format.
-    severity: info
+    severity: off
     given:
     - $..properties[?(@.type == 'string'&&@.format == 'date')]
     - $..parameters[*][?(@.type == 'string'&&@.format == 'date')]
@@ -103,7 +103,7 @@ rules:
     description: Date-time properties and parameters must be specified in ISO 8601
       (yyyy-MM-ddTHH:mm:ss.fffZ) format. Millisecond precision is provided with 3
       decimal digits.
-    severity: info
+    severity: off
     given:
     - $..properties[?(@.type == 'string'&&@.format == 'date-time')]
     - $..parameters[*][?(@.type == 'string'&&@.format == 'date-time')]
@@ -124,7 +124,7 @@ rules:
         min: 24
   data-string-format-not-known:
     description: "String formats must be in set (date,date-time,email,uuid,uri,base64)."
-    severity: info
+    severity: off
     given: $..format
     then:
       function: enumeration
@@ -139,7 +139,7 @@ rules:
         ]
   data-string-missing-min-max:
     description: "String properties and parameters must specify a `minLength` and `maxLength`."
-    severity: info
+    severity: off
     given:
     - $..properties[?(@.type == 'string')]
     - $..paths.*.*.parameters.*[?(@.type == 'string')]

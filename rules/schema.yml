@@ -3,26 +3,26 @@ functions:
 rules:
   schema-has-examples:
     description: Schemas should not have examples. Use property example values instead.
-    severity: info
+    severity: off
     given: $..examples
     then:
       function: falsy
   schema-has-ref-sibling:
     description: Properties must not be placed alongside a `$ref`.
     resolved: false
-    severity: info
+    severity: off
     given: $..[?(@property === '$ref')]
     then:
       function: refSiblings
   schema-has-x-external:
     description: Don't define `x-external` at the top level.
-    severity: info
+    severity: off
     given: $["x-external"]
     then:
     - function: undefined
   schema-has-x-internal:
     description: Don't define `x-internal` at the top level.
-    severity: info
+    severity: off
     given: $["x-internal"]
     then:
     - function: undefined

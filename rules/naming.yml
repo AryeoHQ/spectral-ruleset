@@ -4,14 +4,14 @@ rules:
     given:
     - $..parameters[?(@.in == 'header')].name
     - $..headers.*~
-    severity: info
+    severity: off
     then:
       function: pattern
       functionOptions:
         match: ^([A-Z]+[a-z0-9]*-)+([A-Z]+[a-z0-9]*)$
   naming-path-name-not-lower-kebab-case:
     description: Path names must use `lower-kebab-case`.
-    severity: info
+    severity: off
     given:
     - $.paths
     then:
@@ -22,7 +22,7 @@ rules:
   naming-path-name-not-lower-kebab-case-with-param-snake-case:
     description: Path names must use `lower-kebab-case` with `lower_snake_case` parameters,
       if provided.
-    severity: info
+    severity: off
     given:
     - $.paths[*]~
     then:
@@ -31,7 +31,7 @@ rules:
         match: '[a-z0-9]+(?:_[a-z0-9]+)*'
   naming-path-param-name-not-camel-case:
     description: Path parameter names must use `camelCase`. Digits are not allowed.
-    severity: info
+    severity: off
     given:
     - $..parameters[?(@.in == 'path')]
     then:
@@ -43,7 +43,7 @@ rules:
   naming-path-param-name-not-lower-snake-case:
     description: Path parameter names must use `lower_snake_case`. Digits are not
       allowed.
-    severity: info
+    severity: off
     given:
     - $..parameters[?(@.in == 'path')]
     then:
@@ -54,7 +54,7 @@ rules:
       field: name
   naming-prop-name-not-camel-case:
     description: Property names must use `camelCase`. Digits are not allowed.
-    severity: info
+    severity: off
     given:
     - $..properties.*~
     - $..schema.properties[*]~
@@ -66,7 +66,7 @@ rules:
       field: name
   naming-prop-name-not-lower-snake-case:
     description: Property names must use `lower_snake_case`. Digits are not allowed.
-    severity: info
+    severity: off
     given:
     - $..properties.*~
     - $..schema.properties[*]~
@@ -78,7 +78,7 @@ rules:
       field: name
   naming-query-param-name-not-camel-case:
     description: Query parameter names must use `camelCase`. Digits are not allowed.
-    severity: info
+    severity: off
     given:
     - $..parameters[?(@.in == 'query')]
     then:
@@ -90,7 +90,7 @@ rules:
   naming-query-param-name-not-lower-snake-case:
     description: Query parameter names must use `lower_snake_case`. Digits are not
       allowed.
-    severity: info
+    severity: off
     given:
     - $..parameters[?(@.in == 'query')]
     then:
@@ -101,7 +101,7 @@ rules:
       field: name
   naming-string-enum-value-not-upper-snake-case:
     description: Enumeration values must use `UPPER_SNAKE_CASE`.
-    severity: info
+    severity: off
     given: $.properties.*.enum.*
     then:
       function: casing

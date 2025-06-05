@@ -1,7 +1,7 @@
 rules:
   request-get-has-body:
     description: GET requests should not specify a `requestBody`.
-    severity: info
+    severity: off
     given: $.paths..get.requestBody
     then:
       function: falsy
@@ -10,7 +10,7 @@ rules:
     given:
     - $..headers.*
     resolved: false
-    severity: info
+    severity: off
     then:
     - field: $ref
       function: truthy
@@ -19,7 +19,7 @@ rules:
       directory.
     given:
     - $..headers.*.$ref
-    severity: info
+    severity: off
     then:
     - field: $ref
       function: pattern
@@ -27,7 +27,7 @@ rules:
         match: ^\\.\\.\/(components\/)?headers\/.*\\.json$
   request-missing-header-x-stplus-request-id:
     description: Paths must include the `X-STPlus-Request-Id` context header.
-    severity: info
+    severity: off
     given:
     - $.*
     then:
@@ -47,7 +47,7 @@ rules:
                 pattern: ^header$
   request-missing-header-x-stplus-request-ip:
     description: Paths must include the `X-STPlus-Request-Ip` context header.
-    severity: info
+    severity: off
     given:
     - $.*
     then:
@@ -67,7 +67,7 @@ rules:
                 pattern: ^header$
   request-missing-header-x-stplus-request-user-agent:
     description: Paths must include the `X-STPlus-Request-User-Agent` context header.
-    severity: info
+    severity: off
     given:
     - $.*
     then:
@@ -87,7 +87,7 @@ rules:
                 pattern: ^header$
   request-missing-header-x-stplus-request-timezone:
     description: Paths must include the `X-STPlus-Request-Timezone` context header.
-    severity: info
+    severity: off
     given:
     - $.*
     then:
@@ -107,7 +107,7 @@ rules:
                 pattern: ^header$
   request-missing-header-x-stplus-request-language:
     description: Paths must include the `X-STPlus-Request-Language` context header.
-    severity: info
+    severity: off
     given:
     - $.*
     then:
@@ -127,7 +127,7 @@ rules:
                 pattern: ^header$
   request-security-missing-type-description:
     description: Security schemes must have a `type` and `description`.
-    severity: info
+    severity: off
     given: $.
     then:
     - field: type

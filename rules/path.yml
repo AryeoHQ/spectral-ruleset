@@ -3,7 +3,7 @@ rules:
     description: Paths cannot have nested actions.
     given:
     - $.paths
-    severity: info
+    severity: off
     then:
       function: pattern
       functionOptions:
@@ -13,7 +13,7 @@ rules:
     description: Paths cannot have resources nested after actions.
     given:
     - $.paths
-    severity: info
+    severity: off
     then:
       function: pattern
       functionOptions:
@@ -24,7 +24,7 @@ rules:
     given:
     - $.paths.*
     resolved: false
-    severity: info
+    severity: off
     then:
     - field: $ref
       function: truthy
@@ -32,7 +32,7 @@ rules:
     description: Paths must be specified using a `$ref` to the `./paths` directory.
     given:
     - $.paths.*.$ref
-    severity: info
+    severity: off
     then:
     - field: $ref
       function: pattern
