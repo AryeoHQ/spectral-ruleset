@@ -151,7 +151,14 @@ rules:
     then:
       function: enumeration
       functionOptions:
-        values: "date, date-time, email, uuid, uri, base64"
+        values: [
+          "date",
+          "date-time",
+          "email",
+          "uuid",
+          "uri",
+          "base64"
+        ]
   data-string-missing-min-max:
     description: "String properties and parameters must specify a `minLength` and `maxLength`."
     severity: info
