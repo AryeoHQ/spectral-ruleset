@@ -336,31 +336,6 @@
             return frontMatterMatch ? frontMatterMatch[1].trim() : '';
         }
 
-        function displayFrontMatter(frontMatter) {
-            if (!frontMatter) return;
-
-            const frontMatterDiv = document.createElement('div');
-            frontMatterDiv.className = 'front-matter';
-
-            try {
-                // Try to parse the front matter as YAML
-                const parsedFrontMatter = jsyaml.load(frontMatter);
-                const description = parsedFrontMatter.description;
-                // frontMatterDiv.innerHTML = `
-                //     <h2>${description}</h2>
-                // `;
-                frontMatterDiv.innerHTML = ``;
-            } catch (error) {
-                // Fallback to displaying raw front matter if parsing fails
-                frontMatterDiv.innerHTML = `
-                    <pre>${frontMatter}</pre>
-                `;
-            }
-
-            content.innerHTML = ''; // Clear existing content
-            content.appendChild(frontMatterDiv);
-        }
-
         async function displayRules(rules) {
             if (!rules) {
                 content.innerHTML += '<div>No rules found in the selected file.</div>';

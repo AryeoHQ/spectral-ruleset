@@ -1,11 +1,7 @@
-description: Rules related to responses (e.g. headers, responses).
-documentationUrl: https://aryeohq.github.io
 rules:
   response-action-not-post:
     description: Action paths can only specify `POST` methods.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-action-not-post
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-action-not-post
     given:
     - $.*~
     then:
@@ -16,8 +12,6 @@ rules:
   response-code-not-restful:
     description: Response code must be in set (200,201,202,204,400,401,403,404,405,406,409,415,422,429,500,503).
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-code-not-restful
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-code-not-restful
     given:
     - $..paths.*[?( @property != 'parameters' )].responses.*~
     - $..responses.*~
@@ -44,8 +38,6 @@ rules:
   response-content-not-json:
     description: All content must be specified as `application/json`.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-content-not-json
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-content-not-json
     given: $..content
     then:
     - field: application/json
@@ -53,8 +45,6 @@ rules:
   response-delete-code-not-restful:
     description: DELETE requests should not define `201` or `202` responses.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-delete-code-not-restful
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-delete-code-not-restful
     given:
     - $.[?( @property == 'delete' )].responses.*~
     then:
@@ -64,8 +54,6 @@ rules:
   response-get-code-not-restful:
     description: GET requests should not define `201`, `202`, `204`, or `409` responses.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-get-code-not-restful
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-get-code-not-restful
     given:
     - $..paths.*[?( @property == 'get' )].responses.*~
     - $.[?( @property == 'get' )].responses.*~
@@ -76,33 +64,27 @@ rules:
   response-get-missing-200:
     description: GET requests must define a `200` response.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-get-missing-200
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-get-missing-200
     given:
     - $.[?( @property == 'get' )].responses
     - $..paths.*[?( @property == 'get' )].responses
     then:
-    - field: 200
+    - field: "200"
       function: truthy
   response-get-missing-restful-code:
     description: GET requests must define a `404`, `422`, and `500` response.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-get-missing-restful-code
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-get-missing-restful-code
     given:
     - $..paths.*[?( @property == 'get' )].responses
     then:
-    - field: 404
+    - field: "404"
       function: truthy
-    - field: 422
+    - field: "422"
       function: truthy
-    - field: 500
+    - field: "500"
       function: truthy
   response-method-missing-x-external:
     description: Response methods should define `x-external` as either true or false.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-method-missing-x-external
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-method-missing-x-external
     given:
     - $.*
     then:
@@ -117,8 +99,6 @@ rules:
   response-method-missing-x-internal:
     description: Response methods should define `x-internal` as either true or false.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-method-missing-x-internal
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-method-missing-x-internal
     given:
     - $.*
     then:
@@ -133,23 +113,19 @@ rules:
   response-missing-restful-code:
     description: Requests must define a `422` and `500` response.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-missing-restful-code
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-missing-restful-code
     given:
     - $..paths.*[?( @property == 'post' )].responses
     - $..paths.*[?( @property == 'put' )].responses
     - $..paths.*[?( @property == 'patch' )].responses
     - $..paths.*[?( @property == 'delete' )].responses
     then:
-    - field: 422
+    - field: "422"
       function: truthy
-    - field: 500
+    - field: "500"
       function: truthy
   response-not-restful:
     description: Response methods can only be `GET`, `POST`, `PUT`, `PATCH`, or `DELETE`.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-not-restful
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-not-restful
     given: $..paths.*[?( @property != 'parameters' )]~
     then:
       function: enumeration
@@ -163,8 +139,6 @@ rules:
   response-patch-code-not-restful:
     description: PATCH requests should not define `201` or `202` responses.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-patch-code-not-restful
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-patch-code-not-restful
     given:
     - $.[?( @property == 'patch' )].responses.*~
     then:
@@ -174,30 +148,24 @@ rules:
   response-post-code-not-restful:
     description: POST requests should not define `204` responses.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-post-code-not-restful
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-post-code-not-restful
     given: $.[?( @property == 'post' )].responses.*~
     then:
       function: pattern
       functionOptions:
-        notMatch: 204
+        notMatch: (204)
   response-post-missing-201:
     description: POST requests must define a `201` response.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-post-missing-201
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-post-missing-201
     given:
     - $.[?( @property == 'post' )].responses
     then:
-    - field: 201
+    - field: (201)
       function: truthy
   response-put-code-not-restful:
     description: PUT requests should not define `201` responses.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#response-put-code-not-restful
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#response-put-code-not-restful
     given: $.[?( @property == 'put' )].responses.*~
     then:
       function: pattern
       functionOptions:
-        notMatch: 201
+        notMatch: (201)

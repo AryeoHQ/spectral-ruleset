@@ -5,4 +5,3 @@ extends:
   - ./rules/request.yml
   - ./rules/response.yml
   - ./rules/schema.yml
-documentationUrl: https://aryeohq.github.io/spectral-ruleset/

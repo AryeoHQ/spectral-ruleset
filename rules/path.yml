@@ -1,13 +1,9 @@
-description: Rules related to paths.
-documentationUrl: https://aryeohq.github.io
 rules:
   path-has-nested-action:
     description: Paths cannot have nested actions.
     given:
     - $.paths
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#path-has-nested-action
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#path-has-nested-action
     then:
       function: pattern
       functionOptions:
@@ -18,8 +14,6 @@ rules:
     given:
     - $.paths
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#path-has-nested-action-resource
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#path-has-nested-action-resource
     then:
       function: pattern
       functionOptions:
@@ -31,8 +25,6 @@ rules:
     - $.paths.*
     resolved: false
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#path-not-ref
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#path-not-ref
     then:
     - field: $ref
       function: truthy
@@ -41,8 +33,6 @@ rules:
     given:
     - $.paths.*.$ref
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#path-not-ref-to-path-dir
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#path-not-ref-to-path-dir
     then:
     - field: $ref
       function: pattern

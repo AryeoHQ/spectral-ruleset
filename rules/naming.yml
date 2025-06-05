@@ -1,14 +1,10 @@
-description: Rules related to naming conventions (e.g. lower_snake_case).
-documentationUrl: https://aryeohq.github.io
 rules:
   naming-header-name-not-hyphenated-pascal-case:
     description: Header names must use `Hyphenated-Pascal-Case`.
     given:
-    - $..parameters[?(@.in == ''header'')].name
+    - $..parameters[?(@.in == 'header')].name
     - $..headers.*~
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-header-name-not-hyphenated-pascal-case
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#naming-header-name-not-hyphenated-pascal-case
     then:
       function: pattern
       functionOptions:
@@ -16,8 +12,6 @@ rules:
   naming-path-name-not-lower-kebab-case:
     description: Path names must use `lower-kebab-case`.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-path-name-not-lower-kebab-case
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#naming-path-name-not-lower-kebab-case
     given:
     - $.paths
     then:
@@ -29,21 +23,17 @@ rules:
     description: Path names must use `lower-kebab-case` with `lower_snake_case` parameters,
       if provided.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-path-name-not-lower-kebab-case-with-param-snake-case
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#naming-path-name-not-lower-kebab-case-with-param-snake-case
     given:
     - $.paths[*]~
     then:
-    - function: pattern
+      function: pattern
       functionOptions:
         match: '[a-z0-9]+(?:_[a-z0-9]+)*'
   naming-path-param-name-not-camel-case:
     description: Path parameter names must use `camelCase`. Digits are not allowed.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-path-param-name-not-camel-case
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#naming-path-param-name-not-camel-case
     given:
-    - $..parameters[?(@.in == ''path'')]
+    - $..parameters[?(@.in == 'path')]
     then:
       function: casing
       functionOptions:
@@ -54,10 +44,8 @@ rules:
     description: Path parameter names must use `lower_snake_case`. Digits are not
       allowed.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-path-param-name-not-lower-snake-case
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#naming-path-param-name-not-lower-snake-case
     given:
-    - $..parameters[?(@.in == ''path'')]
+    - $..parameters[?(@.in == 'path')]
     then:
       function: casing
       functionOptions:
@@ -67,8 +55,6 @@ rules:
   naming-prop-name-not-camel-case:
     description: Property names must use `camelCase`. Digits are not allowed.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-prop-name-not-camel-case
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#naming-prop-name-not-camel-case
     given:
     - $..properties.*~
     - $..schema.properties[*]~
@@ -81,8 +67,6 @@ rules:
   naming-prop-name-not-lower-snake-case:
     description: Property names must use `lower_snake_case`. Digits are not allowed.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-prop-name-not-lower-snake-case
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#naming-prop-name-not-lower-snake-case
     given:
     - $..properties.*~
     - $..schema.properties[*]~
@@ -95,10 +79,8 @@ rules:
   naming-query-param-name-not-camel-case:
     description: Query parameter names must use `camelCase`. Digits are not allowed.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-query-param-name-not-camel-case
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#naming-query-param-name-not-camel-case
     given:
-    - $..parameters[?(@.in == ''query'')]
+    - $..parameters[?(@.in == 'query')]
     then:
       function: casing
       functionOptions:
@@ -109,10 +91,8 @@ rules:
     description: Query parameter names must use `lower_snake_case`. Digits are not
       allowed.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-query-param-name-not-lower-snake-case
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#naming-query-param-name-not-lower-snake-case
     given:
-    - $..parameters[?(@.in == ''query'')]
+    - $..parameters[?(@.in == 'query')]
     then:
       function: casing
       functionOptions:
@@ -122,8 +102,6 @@ rules:
   naming-string-enum-value-not-upper-snake-case:
     description: Enumeration values must use `UPPER_SNAKE_CASE`.
     severity: info
-    howToFix: https://aryeohq.github.io/spectral-ruleset/#naming-string-enum-value-not-upper-snake-case
-    documentationUrl: https://aryeohq.github.io/spectral-ruleset/#naming-string-enum-value-not-upper-snake-case
     given: $.properties.*.enum.*
     then:
       function: casing
